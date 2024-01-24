@@ -17,7 +17,7 @@ public class BrickBlock extends Block
 
     public BrickBlock (int tileX, int tileY)
     {
-	super(tileX, tileY, "/images/blocks/brick_block/brickBlock_spriteSheet.png");
+	super(tileX, tileY, "/resources/images/blocks/brick_block/brickBlock_spriteSheet.png");
 	tag = "coinBlock";
     }
 

@@ -13,7 +13,7 @@ public class Menu
     private int posY;
     private int width = 166;
     private int height = 100;
-    private Image img = new Image("/images/Menu/marioMeny.png");
+    private Image img = new Image("/resources/images/Menu/marioMeny.png");
     
     public Menu()
     {

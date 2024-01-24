@@ -15,7 +15,7 @@ public class Flag extends GameObject
 {
     private boolean isDown = false;
     
-    private Image flagImg = new Image("/images/Flag/Flag.png");
+    private Image flagImg = new Image("/resources/images/Flag/Flag.png");
     
     public Flag(int tileY)
     {

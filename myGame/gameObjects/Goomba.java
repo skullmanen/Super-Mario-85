@@ -33,8 +33,8 @@ public class Goomba extends MovingEntity
 	height = GameManager.TS;
 	centerX = (int) posX + (int) (width / 2);
 	centerY = (int) posY + (int) (height / 2);
-	spriteSheet = new ImageTile("/images/enemies/Goomba/goomba.png", 16, 16);
-	deadImage = new ImageTile("/images/enemies/Goomba/Goomba_3.png", 16, 16);
+	spriteSheet = new ImageTile("/resources/images/enemies/Goomba/goomba.png", 16, 16);
+	deadImage = new ImageTile("/resources/images/enemies/Goomba/Goomba_3.png", 16, 16);
 	offX = 0;
 	offY = 0;
 	padding = 0;

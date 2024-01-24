@@ -38,7 +38,7 @@ public class Mushroom extends MovingEntity
 	padding = 0;
 	paddingTop = 0;
 	dieAnimationPlaying = false;
-	spriteSheet = new ImageTile("/images/mushroom/mushroom.png", 16, 16);
+	spriteSheet = new ImageTile("/resources/images/mushroom/mushroom.png", 16, 16);
 	state = SPAWN_STATE;
 	
 	this.addComponent(new AABBComponent(this));

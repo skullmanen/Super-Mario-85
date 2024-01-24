@@ -11,7 +11,7 @@ import gameEngine.gfx.Image;
 
 public class DeathScreen
 {
-    private Image img = new Image("/images/Death_Screen/game_over.jpg");
+    private Image img = new Image("/resources/images/Death_Screen/game_over.jpg");
     
     public DeathScreen(){
 	

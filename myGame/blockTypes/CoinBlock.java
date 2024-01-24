@@ -21,7 +21,7 @@ public class CoinBlock extends Block
     
     public CoinBlock (int tileX, int tileY, String contains)
     {
-	super(tileX, tileY, "/images/blocks/coin_block/coinBlock_spriteSheet.png");
+	super(tileX, tileY, "/resources/images/blocks/coin_block/coinBlock_spriteSheet.png");
 	tag = "coinBlock";
 	
 	this.contains = contains;

@@ -24,8 +24,8 @@ public class Player extends GameObject
     private boolean ground = false;
     private float fallDistance = 0f; //velocity?
 
-    private final ImageTile smallMarioSpriteSheet = new ImageTile("/images/mario/MarioSpriteSheet_small.png", 16, 16);
-    private final ImageTile bigMarioSpriteSheet = new ImageTile("/images/mario/MarioSpriteSheet_big.png", 16, 32);
+    private final ImageTile smallMarioSpriteSheet = new ImageTile("/resources/images/mario/MarioSpriteSheet_small.png", 16, 16);
+    private final ImageTile bigMarioSpriteSheet = new ImageTile("/resources/images/mario/MarioSpriteSheet_big.png", 16, 32);
     private float anim = 3f;
 
     public final int SMALL_MARIO = 0, SUPER_MARIO = 1, FIRE_MARIO = 2, STAR_MARIO = 3, DEAD_MARIO = 4;

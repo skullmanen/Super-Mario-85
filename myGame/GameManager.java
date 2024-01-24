@@ -220,7 +220,7 @@ public class GameManager extends AbstractGame
 	objects.add(new Koopa(107, 12));
 	objects.add(new Player(3, 12));
 
-	mouseKlick = new SoundClip("/audio/test.wav", -50);
+	mouseKlick = new SoundClip("/resources/audio/test.wav", -50);
 	map = new Map();
 	camera = new Camera("player");
 	menu = new Menu();

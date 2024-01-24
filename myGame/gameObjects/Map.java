@@ -24,7 +24,7 @@ public class Map //extends GameObject
 
     public Map ()
     {
-	background = new Image("/images/levels/lvl1/background.png");
+	background = new Image("/resources/images/levels/lvl1/background.png");
 	loadLevel("lvl1");
 	width = background.getW();
 	height = background.getH();
@@ -64,7 +64,7 @@ public class Map //extends GameObject
 
     private void loadLevel (String path)
     {
-	final Image input = new Image("/images/levels/" + path + "/colorWorld1_1.png");
+	final Image input = new Image("/resources/images/levels/" + path + "/colorWorld1_1.png");
 	collisionMap = new boolean[input.getH()][input.getW()];
 
 	final int deadBlock = -5680600;

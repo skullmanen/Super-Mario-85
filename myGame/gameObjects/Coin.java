@@ -20,7 +20,7 @@ public class Coin extends GameObject
     
     public Coin(int tileX, int tileY)
     {
-	spriteSheet = new ImageTile("/images/coin/CoinSpriteSheet.png", 8, 14);
+	spriteSheet = new ImageTile("/resources/images/coin/CoinSpriteSheet.png", 8, 14);
 	tag = "coin";
 	this.posX = tileX * GameManager.TS;
 	this.posY = tileY * GameManager.TS;

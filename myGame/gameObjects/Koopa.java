@@ -37,7 +37,7 @@ public class Koopa extends MovingEntity
 	centerX = (int) posX + (int) (width / 2);
 	centerY = (int) posY + (int) (height / 2);
 
-	spriteSheet = new ImageTile("/images/enemies/Koopa/Koopa_Troopa_SpriteSheet.png", 16, 24);
+	spriteSheet = new ImageTile("/resources/images/enemies/Koopa/Koopa_Troopa_SpriteSheet.png", 16, 24);
 
 	offX = 0;
 	offY = 0;
