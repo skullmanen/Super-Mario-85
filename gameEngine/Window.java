@@ -6,7 +6,7 @@ import java.awt.Dimension;
 import java.awt.Graphics;
 import java.awt.image.BufferStrategy;
 import java.awt.image.BufferedImage;
-import javax.swing.JFrame;
+import javax.swing.*;
 
 public class Window
 {
@@ -31,6 +31,10 @@ public class Window
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setLayout(new BorderLayout());
         frame.add(canvas, BorderLayout.CENTER);
+
+
+
+
         frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
