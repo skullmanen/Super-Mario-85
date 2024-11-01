@@ -22,6 +22,7 @@ import java.util.ArrayList;
 import myGame.gameObjects.Flag;
 import myGame.gameObjects.Goomba;
 import myGame.gameObjects.Koopa;
+import myGame.gameObjects.TeleportPipe;
 
 import javax.swing.*;
 
@@ -43,6 +44,8 @@ public class GameManager extends AbstractGame {
 
     public float gameTime;
     public int frameCounter = 0;
+    private Point teleportPipesCoords[] = {new Point(912,128)};
+    private ArrayList<TeleportPipe> teleportPipes = new ArrayList<>();
     public GameManager() {
         initialize_game();
     }
@@ -172,6 +175,14 @@ public class GameManager extends AbstractGame {
         return null;
     }
 
+    public TeleportPipe getTeleportPipe(GameObject object){
+        for(TeleportPipe tp : teleportPipes){
+            if(tp == object) return tp;
+        }
+
+        return null;
+    }
+
     public boolean getCollision(int x, int y) {
         return map.getCollision(x, y);
     }
@@ -205,6 +216,11 @@ public class GameManager extends AbstractGame {
 
         for (int i = 0; i < goombaSpawnPosX.length; i++) {
             objects.add(new Goomba(goombaSpawnPosX[i], goombaSpawnPosY[i]));
+        }
+        for(Point p : teleportPipesCoords){
+            TeleportPipe tp = new TeleportPipe(p);
+            teleportPipes.add(tp);
+            objects.add(tp);
         }
         objects.add(new Flag(3));
         objects.add(new Koopa(107, 12));

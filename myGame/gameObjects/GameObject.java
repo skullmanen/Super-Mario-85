@@ -5,6 +5,7 @@ import gameEngine.GameContainer;
 import gameEngine.Renderer;
 import java.util.ArrayList;
 import myGame.GameManager;
+import java.awt.Point;
 
 public abstract class GameObject {
     
@@ -22,7 +23,6 @@ public abstract class GameObject {
     protected boolean shellForm;
     protected int direction;
     protected boolean winAnimation;
-    
     
     protected ArrayList<Component> components = new ArrayList<>();
     
@@ -237,5 +237,9 @@ public abstract class GameObject {
     {
 	winAnimation = b;
     }
+
+
+
     
+
 }

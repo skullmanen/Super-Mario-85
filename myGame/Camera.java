@@ -9,6 +9,7 @@ import gameEngine.GameContainer;
 
 public class Camera
 {
+    private boolean moveCamera = true;
 
     private float offX, offY;
 
@@ -34,7 +35,7 @@ public class Camera
 
 	float targetX = (target.getPosX() + target.getWidth() / 2) - gc.getWidth() / 2;
 	
-	if (target.getPosX() + target.getWidth() / 2 > offX + gc.getWidth() / 2) {
+	if (target.getPosX() + target.getWidth() / 2 > offX + gc.getWidth() / 2 && moveCamera) {
 	    offX = targetX;
 	    //offX -= dt * (offX - targetX) * 2;
 	}
@@ -95,6 +96,11 @@ public class Camera
     {
 	this.target = target;
     }
+
+    public void setMoveCamera(boolean moveCamera) {
+        this.moveCamera = moveCamera;
+    }
+    
     
     
 }

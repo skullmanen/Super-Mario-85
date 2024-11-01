@@ -45,6 +45,10 @@ public class Player extends GameObject
     private boolean deathStatsApplied = false;
 	boolean tas = false;
 	int[] tasJumpFrames = {59, 163, 223, 283, 490, 553, 615, 670, 738, 816, 908, 1003, 1103, 1147, 1223};
+
+	private boolean canTeleport = false;
+
+	GameObject freeObjectSpace;
     public Player (int tileX, int tileY)
     {
 	this.tag = "player";
@@ -251,9 +255,10 @@ public class Player extends GameObject
 
     private void updatePosY (GameContainer gc, GameManager gm, float dt)
     {
-		if(gc.getInput().isKeyDown(KeyEvent.VK_E)){
+		
+		/*if(gc.getInput().isKeyDown(KeyEvent.VK_E)){
 			System.out.println(gm.frameCounter);
-		}
+		}*/
 	// Jump and Gravity
 	if ( fallDistance != 0 )
 	    ground = false;
@@ -300,12 +305,16 @@ public class Player extends GameObject
 	{
 	    if ( (gm.getCollision(tileX, tileY + 1 + marioState) || gm.getCollision(tileX + (int) Math.signum((int) Math.abs(offX) > padding ? offX : 0), tileY + 1 + marioState)) && offY > 0 && !dieAnimationPlaying )
 	    {
-		fallDistance = 0;
-		offY = 0;
-		ground = true;
+			fallDistance = 0;
+			offY = 0;
+			ground = true;
 	    }
 	}
+	if(canTeleport && gc.getInput().isKeyDown(KeyEvent.VK_S)){
+		posX = gm.getTeleportPipe(freeObjectSpace).getTeleportToCoords().x;
+		posY = gm.getTeleportPipe(freeObjectSpace).getTeleportToCoords().y;
 
+	}
 	if ( tileY > 20 )
 	    marioState = DEAD_MARIO;
 	    //System.exit(1);
@@ -499,35 +508,41 @@ public class Player extends GameObject
     @Override
     public void collision (GameObject other)
     {
-	AABBComponent myC = (AABBComponent) this.findComponent("aabb");
-	AABBComponent otherC = (AABBComponent) other.findComponent("aabb");
+		AABBComponent myC = (AABBComponent) this.findComponent("aabb");
+		AABBComponent otherC = (AABBComponent) other.findComponent("aabb");
 
 
-	if ( !other.isDieAnimationPlaying() && !dieAnimationPlaying )
-	{
-	    if ( (other.getTag().equals("goomba") || other.getTag().equals("koopa")) && !dieAnimationPlaying )
-	    {
+		if ( !other.isDieAnimationPlaying() && !dieAnimationPlaying )
+		{
+			if ( (other.getTag().equals("goomba") || other.getTag().equals("koopa")) && !dieAnimationPlaying )
+			{
 
-		if ( other.getPosY() + other.getHeight() < myC.getCenterY() )
-		{ //other is over player
-		    loseLife();
-		} else if ( posY + height < otherC.getCenterY() )
-		{ //jag över han
-		    fallDistance = -2f;
-		} else
-		{ // bredvid
-		    if ( (!other.isShellForm() || (other.isShellForm() && other.getDirection() == signum(posX - other.getPosX()))) && other.getSpeedX() != 0 )
-		    {
+			if ( other.getPosY() + other.getHeight() < myC.getCenterY() )
+			{ //other is over player
+				loseLife();
+			} else if ( posY + height < otherC.getCenterY() )
+			{ //jag över han
+				fallDistance = -2f;
+			} else
+			{ // bredvid
+				if ( (!other.isShellForm() || (other.isShellForm() && other.getDirection() == signum(posX - other.getPosX()))) && other.getSpeedX() != 0 )
+				{
 
-			loseLife();
-		    }
+				loseLife();
+				}
+			}
+
+			} else if ( other.getTag().equals("mushroom") && !dieAnimationPlaying )
+			{
+			marioState = SUPER_MARIO;
+			}
 		}
-
-	    } else if ( other.getTag().equals("mushroom") && !dieAnimationPlaying )
-	    {
-		marioState = SUPER_MARIO;
-	    }
-	}
+		System.out.println("in collision");
+		if(other.tag == "teleportPipe"){
+			System.out.println("collide with pipe");
+			freeObjectSpace = other;
+			canTeleport = true;
+		}
     }
 
 }
