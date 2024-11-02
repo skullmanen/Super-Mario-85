@@ -5,7 +5,6 @@ import gameEngine.GameContainer;
 import gameEngine.Renderer;
 import java.util.ArrayList;
 import myGame.GameManager;
-import java.awt.Point;
 
 public abstract class GameObject {
     

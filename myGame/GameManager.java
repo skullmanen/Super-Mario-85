@@ -43,7 +43,7 @@ public class GameManager extends AbstractGame {
     private LeaderBoard leaderBoard;
 
     public float gameTime;
-    public int frameCounter = 0;
+    public static int frameCounter = 0;
     private Point teleportPipesCoords[] = {new Point(912,128)};
     private ArrayList<TeleportPipe> teleportPipes = new ArrayList<>();
     public GameManager() {

@@ -17,25 +17,25 @@ public class AABBComponent extends Component
 
     public AABBComponent (GameObject parent)
     {
-	tag = "aabb";
-	this.parent = parent;
+        tag = "aabb";
+        this.parent = parent;
     }
 
     @Override
     public void update (GameContainer gc, GameManager gm, float dt)
     {
-	centerX = (int) parent.getPosX() + (int) (parent.getWidth() / 2);
-	centerY = (int) parent.getPosY() + (int) (parent.getHeight() / 2);
-	halfWidth = parent.getWidth() / 2;
-	halfHeight = parent.getHeight() / 2;
-
-	AABBCollision.addAABBComponent(this);
+        centerX = (int) parent.getPosX() + (int) (parent.getWidth() / 2);
+        centerY = (int) parent.getPosY() + (int) (parent.getHeight() / 2);
+        halfWidth = parent.getWidth() / 2;
+        halfHeight = parent.getHeight() / 2;
+        
+        AABBCollision.addAABBComponent(this);
     }
 
     @Override
     public void render (GameContainer gc, Renderer r)
     {
-	r.drawRect((int) (centerX - halfWidth), (int) (centerY - halfHeight), (int) (halfWidth * 2), (int) (halfHeight * 2), 0);
+	    r.drawRect((int) (centerX - halfWidth), (int) (centerY - halfHeight), (int) (halfWidth * 2), (int) (halfHeight * 2), 0);
 
     }
 

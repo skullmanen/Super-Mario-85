@@ -14,12 +14,13 @@ public class AABBCollision
     private static ArrayList<AABBComponent> aabbList = new ArrayList<>();
     
     public static void addAABBComponent(AABBComponent aabb){
-	aabbList.add(aabb);
+		aabbList.add(aabb);
 	
     }
     
     public static void update(){
 	for(int i = 0; i< aabbList.size(); i++){
+	//	System.out.println(aabbList.get(i).getParent().getTag());
 	    for(int j = 0; j < aabbList.size(); j++){
 		AABBComponent c0 = aabbList.get(i);
 		AABBComponent c1 = aabbList.get(j);

@@ -85,7 +85,7 @@ public class Player extends GameObject
 	    updatePosY(gc, gm, dt);
 	}
 	
-	finalPosition(gm);
+	finalPosition(gm, gc);
 
 	animation(gc, dt);
 
@@ -310,17 +310,13 @@ public class Player extends GameObject
 			ground = true;
 	    }
 	}
-	if(canTeleport && gc.getInput().isKeyDown(KeyEvent.VK_S)){
-		posX = gm.getTeleportPipe(freeObjectSpace).getTeleportToCoords().x;
-		posY = gm.getTeleportPipe(freeObjectSpace).getTeleportToCoords().y;
-
-	}
+	
 	if ( tileY > 20 )
 	    marioState = DEAD_MARIO;
 	    //System.exit(1);
     }
 
-    private void finalPosition (GameManager gm)
+    private void finalPosition (GameManager gm, GameContainer gc)
     {
 	if ( offY > GameManager.TS / 2 )
 	{
@@ -348,6 +344,13 @@ public class Player extends GameObject
 
 	posX = tileX * GameManager.TS + offX;
 	posY = tileY * GameManager.TS + offY;
+
+	if(canTeleport && gc.getInput().isKeyDown(KeyEvent.VK_S)){
+		tileX = gm.getTeleportPipe(freeObjectSpace).getTeleportToCoords().x/GameManager.TS;
+		tileY = gm.getTeleportPipe(freeObjectSpace).getTeleportToCoords().y/GameManager.TS;
+
+	}
+		canTeleport = false;
     }
 
     private void animation (GameContainer gc, float dt)
@@ -508,6 +511,7 @@ public class Player extends GameObject
     @Override
     public void collision (GameObject other)
     {
+		if(other.tag == "player")return;
 		AABBComponent myC = (AABBComponent) this.findComponent("aabb");
 		AABBComponent otherC = (AABBComponent) other.findComponent("aabb");
 
@@ -537,12 +541,17 @@ public class Player extends GameObject
 			marioState = SUPER_MARIO;
 			}
 		}
-		System.out.println("in collision");
+		
 		if(other.tag == "teleportPipe"){
 			System.out.println("collide with pipe");
 			freeObjectSpace = other;
 			canTeleport = true;
+		}else {
+			freeObjectSpace = null;
+			canTeleport = false;
+			
 		}
+		
     }
 
 }
