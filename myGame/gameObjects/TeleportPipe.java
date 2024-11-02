@@ -9,16 +9,21 @@ import java.awt.Point;
 
 
 public class TeleportPipe extends GameObject{
-    private final Point teleportToCoords = new Point(1500, 100);
-    public TeleportPipe(Point coords){
+    private final Point teleportToCoords;//in tiles
+    private final int cameraPosition;
+    private final int entranceKeycode;
+    public TeleportPipe(Point coords, int width, int height, int keyCode, Point telePortToCoords, int cameraPosition){
         System.out.println("in consticor");
         this.tag = "teleportPipe";
         this.posX = coords.x;
         this.posY = coords.y;
-        width = 13;
-        height = 10;
+        this.width = width;
+        this.height = height;
+        this.teleportToCoords = telePortToCoords;
+        this.cameraPosition = cameraPosition;
         centerX = (int) (posX) + (int) (width / 2);
 	    centerY = (int) (posY) + (int) (height / 2);
+        entranceKeycode = keyCode;
         this.addComponent(new AABBComponent(this));
        
     }
@@ -31,7 +36,7 @@ public class TeleportPipe extends GameObject{
     @Override
     public void render(GameContainer gc, Renderer r) {
         //System.out.println("pipe render");
-      r.drawFillRect((int)posX, (int)posY, width, height, 0);
+      r.drawFillRect((int)posX, (int)posY, width, height, 255);
       this.renderComponents(gc, r);
     }
 
@@ -44,6 +49,13 @@ public class TeleportPipe extends GameObject{
         return teleportToCoords;
     }
 
-    
+    public int getCameraPosition() {
+        return cameraPosition;
+    }
+
+    public int getEntranceKeycode() {
+        return entranceKeycode;
+    }   
+
     
 }

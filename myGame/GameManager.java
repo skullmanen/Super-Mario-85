@@ -26,6 +26,9 @@ import myGame.gameObjects.TeleportPipe;
 
 import javax.swing.*;
 
+import java.awt.image.*;
+import javax.imageio.ImageIO;
+
 
 public class GameManager extends AbstractGame {
 
@@ -41,11 +44,12 @@ public class GameManager extends AbstractGame {
     private DeathScreen death;
     private SoundClip mouseKlick;
     private LeaderBoard leaderBoard;
-
+    
     public float gameTime;
     public static int frameCounter = 0;
-    private Point teleportPipesCoords[] = {new Point(912,128)};
+    private Point teleportPipesCoords[] = {new Point(912,128), new Point(3595, 192)};
     private ArrayList<TeleportPipe> teleportPipes = new ArrayList<>();
+   
     public GameManager() {
         initialize_game();
     }
@@ -217,14 +221,16 @@ public class GameManager extends AbstractGame {
         for (int i = 0; i < goombaSpawnPosX.length; i++) {
             objects.add(new Goomba(goombaSpawnPosX[i], goombaSpawnPosY[i]));
         }
-        for(Point p : teleportPipesCoords){
-            TeleportPipe tp = new TeleportPipe(p);
-            teleportPipes.add(tp);
-            objects.add(tp);
-        }
+       
+        TeleportPipe tp = new TeleportPipe(teleportPipesCoords[0], 13,10,KeyEvent.VK_S,new Point(214, 2),212);
+        teleportPipes.add(tp);
+        objects.add(tp);
+        tp = new TeleportPipe(teleportPipesCoords[1], 2,2,KeyEvent.VK_D,new Point(163, 10),100);
+        teleportPipes.add(tp);
+        objects.add(tp);
         objects.add(new Flag(3));
         objects.add(new Koopa(107, 12));
-        objects.add(new Player(3, 12));
+        objects.add(new Player(3,12));
 
         mouseKlick = new SoundClip("/resources/audio/test.wav", -50);
         map = new Map();
@@ -232,6 +238,7 @@ public class GameManager extends AbstractGame {
         menu = new Menu();
         death = new DeathScreen();
         leaderBoard = new LeaderBoard();
+        
 
 
     }
