@@ -21,7 +21,7 @@ public class Map // extends GameObject
 	private final int width, height;
 
 	public Map() {
-		background = new Image("/resources/images/levels/lvl1/background(1).png");
+		background = new Image("/resources/images/levels/lvl1/bakgrund1-1.png");
 		loadLevel("lvl1");
 		width = background.getW();
 		height = background.getH();
@@ -84,7 +84,7 @@ public class Map // extends GameObject
 
 					case caveBrickBlock:
 						collisionMap[y][x] = true;
-						//blocks.put(new Point(x, y), new BrickBlock(x, y));
+						blocks.put(new Point(x, y), new BrickBlock(x, y));
 						break;
 						
 					case coinBlockM:
