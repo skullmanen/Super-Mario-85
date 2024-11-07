@@ -79,12 +79,12 @@ public class Map // extends GameObject
 					
 					case brickBlock:
 						collisionMap[y][x] = true;
-						blocks.put(new Point(x, y), new BrickBlock(x, y));
+						blocks.put(new Point(x, y), new BrickBlock(x, y, "brickBlock_spriteSheet.png"));
 						break;
 
 					case caveBrickBlock:
 						collisionMap[y][x] = true;
-						blocks.put(new Point(x, y), new BrickBlock(x, y));
+						blocks.put(new Point(x, y), new BrickBlock(x, y,"undergroundBrickBlock_spriteSheet.png"));
 						break;
 						
 					case coinBlockM:
