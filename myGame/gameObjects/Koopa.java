@@ -21,10 +21,12 @@ public class Koopa extends MovingEntity
     private final float shellSpeed = 160;
 
     private int imageTileY = 0;
+	private String koopaColor;
 
-    public Koopa (int tileX, int tileY)
+    public Koopa (int tileX, int tileY, String koopaColor)
     {
 	tag = "koopa";
+	this.koopaColor = koopaColor;
 	this.tileX = tileX;
 	this.tileY = tileY;
 	posX = tileX * GameManager.TS;
@@ -36,8 +38,12 @@ public class Koopa extends MovingEntity
 	height = GameManager.TS;
 	centerX = (int) posX + (int) (width / 2);
 	centerY = (int) posY + (int) (height / 2);
-
-	spriteSheet = new ImageTile("/resources/images/enemies/Koopa/Koopa_Troopa_SpriteSheet.png", 16, 24);
+	spriteSheet = koopaColor.equals("green") ? 
+	new ImageTile("/resources/images/enemies/Koopa/Koopa_Troopa_SpriteSheet.png", 16, 24) : 
+	new ImageTile("/resources/images/enemies/Koopa/Koopa_Troopa_SpriteSheet.png", 16, 24);
+	
+	
+	//spriteSheet = new ImageTile("/resources/images/enemies/Koopa/Koopa_Troopa_SpriteSheet.png", 16, 24);
 
 	offX = 0;
 	offY = 0;
@@ -66,6 +72,10 @@ public class Koopa extends MovingEntity
 	    {
 		dieAnimation();
 	    }
+		
+		if(koopaColor.equals("red") && !gm.getCollision(tileX+direction, tileY+1)){
+			direction = -direction;
+		}
 	}
 
 	if ( Math.abs(gm.getObject("player").getTileX() - tileX) <= 17 )

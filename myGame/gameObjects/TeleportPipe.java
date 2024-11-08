@@ -13,7 +13,6 @@ public class TeleportPipe extends GameObject{
     private final int cameraPosition;
     private final int entranceKeycode;
     public TeleportPipe(Point coords, int width, int height, int keyCode, Point telePortToCoords, int cameraPosition){
-        System.out.println("in consticor");
         this.tag = "teleportPipe";
         this.posX = coords.x;
         this.posY = coords.y;

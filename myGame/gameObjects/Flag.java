@@ -17,10 +17,10 @@ public class Flag extends GameObject
     
     private Image flagImg = new Image("/resources/images/Flag/Flag.png");
     
-    public Flag(int tileY)
+    public Flag(int tileX, int tileY)
     {
 	tag = "flag";
-	tileX = 198;
+	this.tileX = tileX;
 	posX = tileX * GameManager.TS - GameManager.TS / 2;
 	posY = tileY * GameManager.TS + 1;
 	width = GameManager.TS;

@@ -321,7 +321,8 @@ public class Player extends GameObject {
 		}
 		canTeleport = false;
 
-		//System.out.println(posX + " " + posY);
+		System.out.println(posX/GameManager.TS + " " + posY/GameManager.TS);
+		//sSystem.out.println(posX + " " + posY);
 	}
 
 	private void animation(GameContainer gc, float dt) {
