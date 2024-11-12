@@ -17,6 +17,7 @@ import java.awt.event.KeyEvent;
 import java.awt.event.MouseEvent;
 import java.sql.SQLOutput;
 import java.util.ArrayList;
+import java.util.HashMap;
 
 import myGame.gameObjects.Flag;
 import myGame.gameObjects.Goomba;
@@ -26,6 +27,9 @@ import myGame.gameObjects.TeleportPipe;
 import javax.swing.*;
 
 import java.awt.image.*;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+
 import javax.imageio.ImageIO;
 
 public class GameManager extends AbstractGame {
@@ -46,9 +50,25 @@ public class GameManager extends AbstractGame {
     public float gameTime;
     public static int frameCounter = 0;
 
+    private int currentLevel = 1;
+    
+    
+
     private ArrayList<TeleportPipe> teleportPipes = new ArrayList<>();
 
+    private HashMap<Integer, Runnable> initializeLevel = new HashMap<>();
+
     public GameManager() {
+       /*  initializeLevel.put(1, new Runnable(){
+            public void run(){ initialize_lvl1();}
+        });
+
+        initializeLevel.put(2, this::initialize_lvl2);*/
+
+        for (int i = 1; i <= 2; i++) {
+            int level = i;
+            initializeLevel.put(level, () -> initializeLevelMethod(level));
+        }
         initialize_game();
     }
 
@@ -125,6 +145,12 @@ public class GameManager extends AbstractGame {
                 AABBCollision.update();
 
                 camera.update(gc, this, dt);
+                gameTime-=1;
+                if(gameTime<= 0){
+                    gameState = PLAY_STATE;
+                    currentLevel++;
+                    initialize_game();
+                }
 
                 break;
 
@@ -203,7 +229,8 @@ public class GameManager extends AbstractGame {
         death = new DeathScreen();
         leaderBoard = new LeaderBoard();
         mouseKlick = new SoundClip("/resources/audio/test.wav", -50);
-        initialize_lvl2();
+        initializeLevel.get(currentLevel).run();
+       // initialize_lvl1();
 
     }
 
@@ -249,11 +276,11 @@ public class GameManager extends AbstractGame {
     };
 
         for (int i = 0; i < goombaSpawnPosX.length; i++) {
-            //objects.add(new Goomba(goombaSpawnPosX[i], goombaSpawnPosY[i]));
+        objects.add(new Goomba(goombaSpawnPosX[i], goombaSpawnPosY[i]));
         }
 
         for (int i = 0; i < koopaSpawnPosX.length; i++) {
-           // objects.add(new Koopa(koopaSpawnPosX[i], koopaSpawnPosY[i], "green"));
+           objects.add(new Koopa(koopaSpawnPosX[i], koopaSpawnPosY[i], "green"));
         }
 
         objects.add(new Koopa(163, 12, "red"));
@@ -272,6 +299,16 @@ public class GameManager extends AbstractGame {
         }
 
         
+    }
+
+    private void initializeLevelMethod(int level) {
+        System.out.println("in itialexe");
+        try {
+            Method method = this.getClass().getDeclaredMethod("initialize_lvl" + level);
+            method.invoke(this);
+        } catch (NoSuchMethodException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+        }
     }
 
 }

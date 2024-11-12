@@ -156,7 +156,10 @@ public class Player extends GameObject {
 			offX += 80 * dt;
 			tileY = 12 - marioState;
 			direction = 0;
-			if(tileX == 203)gm.getCamera().setMoveCamera(false);
+			if(tileX == 203){
+				gm.getCamera().setMoveCamera(false);
+				
+			}
 			else if(tileX == 204)renderMario = false;
 		}
 
@@ -321,7 +324,7 @@ public class Player extends GameObject {
 		}
 		canTeleport = false;
 
-		System.out.println(posX/GameManager.TS + " " + posY/GameManager.TS);
+		//System.out.println(posX/GameManager.TS + " " + posY/GameManager.TS);
 		//sSystem.out.println(posX + " " + posY);
 	}
 
