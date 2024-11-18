@@ -288,7 +288,7 @@ public class GameManager extends AbstractGame {
         objects.add(new Player(3, 12));
 
         map = new Map("lvl2/colorworld1-2.png", "lvl2/bakgrund1-2.png");
-        teleportPipes.add(new TeleportPipe(new Point(161, 192)/*in pixels */, 2, 2, KeyEvent.VK_D, new Point(20, 4)/*in tiles*/, 0));
+        teleportPipes.add(new TeleportPipe(new Point(161, 192)/*in pixels */, 2, 2, KeyEvent.VK_D, new Point(20, 4)/*in tiles*/, 17/*in tiles */));
         teleportPipes.add(new TeleportPipe(new Point(2925, 144)/*in pixels */, 2, 2, KeyEvent.VK_D, new Point(213, 10)/*in tiles*/, 0));
         teleportPipes.add(new TeleportPipe(new Point(1921, 144)/*in pixels */, 13, 10, KeyEvent.VK_S, new Point(244, 4)/*in tiles*/, 0));
         teleportPipes.add(new TeleportPipe(new Point(4095, 192)/*in pixels */, 2, 2, KeyEvent.VK_D, new Point(132, 10)/*in tiles*/, 0));
@@ -297,6 +297,8 @@ public class GameManager extends AbstractGame {
         for(TeleportPipe tp : teleportPipes){
             objects.add(tp);
         }
+
+        camera.setMoveCamera(false);
 
         
     }

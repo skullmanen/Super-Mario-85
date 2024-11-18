@@ -49,6 +49,7 @@ public class TeleportPipe extends GameObject{
     }
 
     public int getCameraPosition() {
+        
         return cameraPosition;
     }
 

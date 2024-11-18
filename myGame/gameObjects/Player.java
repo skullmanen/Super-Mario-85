@@ -317,6 +317,7 @@ public class Player extends GameObject {
 			if(gc.getInput().isKey(teleportPipe.getEntranceKeycode())){
 				tileX = teleportPipe.getTeleportToCoords().x;
 				tileY = teleportPipe.getTeleportToCoords().y;
+				gm.getCamera().setMoveCamera(true);
 				gm.getCamera().setOffX(teleportPipe.getCameraPosition() * GameManager.TS);
 			}
 			
@@ -491,8 +492,19 @@ public class Player extends GameObject {
 				marioState = SUPER_MARIO;
 			}
 		}
+
+		if(other.tag == "movingPlatform"){
+			if(fallDistance < 0){
+				fallDistance = 0;
+				offY = paddingTop;
+			}else if(fallDistance > 0){
+				fallDistance = 0;
+				offY = 0;
+				ground = true;
+			}
+		}
 		
-		if (other.tag == "teleportPipe") {
+		else if (other.tag == "teleportPipe") {
 			System.out.println("collide with pipe");
 			freeObjectSpace = other;
 			canTeleport = true;
