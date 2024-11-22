@@ -5,6 +5,7 @@ import gameEngine.Window;
 import myGame.gameObjects.GameObject;
 import myGame.gameObjects.Player;
 import myGame.gameObjects.Map;
+import myGame.gameObjects.MovingPlatform;
 import gameEngine.AbstractGame;
 import gameEngine.GameContainer;
 import gameEngine.Renderer;
@@ -50,11 +51,12 @@ public class GameManager extends AbstractGame {
     public float gameTime;
     public static int frameCounter = 0;
 
-    private int currentLevel = 1;
+    private int currentLevel = 2;
     
     
 
     private ArrayList<TeleportPipe> teleportPipes = new ArrayList<>();
+    private ArrayList<MovingPlatform> movingPlatforms = new ArrayList<>();
 
     private HashMap<Integer, Runnable> initializeLevel = new HashMap<>();
 
@@ -202,6 +204,15 @@ public class GameManager extends AbstractGame {
         return null;
     }
 
+    public MovingPlatform getMovingPlatform(GameObject object) {
+        for (MovingPlatform mp : movingPlatforms) {
+            if (mp == object)
+                return mp;
+        }
+
+        return null;
+    }
+
     public boolean getCollision(int x, int y) {
         return map.getCollision(x, y);
     }
@@ -285,19 +296,26 @@ public class GameManager extends AbstractGame {
 
         objects.add(new Koopa(163, 12, "red"));
         objects.add(new Flag(232, 3));
-        objects.add(new Player(3, 12));
+        objects.add(new Player(154, 12));//3
 
         map = new Map("lvl2/colorworld1-2.png", "lvl2/bakgrund1-2.png");
         teleportPipes.add(new TeleportPipe(new Point(161, 192)/*in pixels */, 2, 2, KeyEvent.VK_D, new Point(20, 4)/*in tiles*/, 17/*in tiles */));
-        teleportPipes.add(new TeleportPipe(new Point(2925, 144)/*in pixels */, 2, 2, KeyEvent.VK_D, new Point(213, 10)/*in tiles*/, 0));
-        teleportPipes.add(new TeleportPipe(new Point(1921, 144)/*in pixels */, 13, 10, KeyEvent.VK_S, new Point(244, 4)/*in tiles*/, 0));
+        teleportPipes.add(new TeleportPipe(new Point(2925, 144)/*in pixels */, 2, 2, KeyEvent.VK_D, new Point(213, 10)/*in tiles*/, 210));
+        teleportPipes.add(new TeleportPipe(new Point(1921, 144)/*in pixels */, 13, 10, KeyEvent.VK_S, new Point(244, 4)/*in tiles*/, 244));
         teleportPipes.add(new TeleportPipe(new Point(4095, 192)/*in pixels */, 2, 2, KeyEvent.VK_D, new Point(132, 10)/*in tiles*/, 0));
-
-
         for(TeleportPipe tp : teleportPipes){
             objects.add(tp);
         }
 
+        movingPlatforms.add(new MovingPlatform(100, 100, "DOWN"));
+        movingPlatforms.add(new MovingPlatform(100, 100, "DOWN"));
+        movingPlatforms.add(new MovingPlatform(100, 100, "UP"));
+        movingPlatforms.add(new MovingPlatform(100, 100, "UP"));
+       // movingPlatforms.add(new MovingPlatform(50, 100, "DOWN"));
+        
+        for(MovingPlatform mp : movingPlatforms){
+            objects.add(mp);
+        }
         camera.setMoveCamera(false);
 
         

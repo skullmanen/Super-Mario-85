@@ -46,6 +46,7 @@ public class Player extends GameObject {
 	int[] tasJumpFrames = { 59, 163, 223, 283, 490, 553, 615, 670, 738, 816, 908, 1003, 1103, 1147, 1223 };
 
 	private boolean canTeleport = false;
+	private boolean standingOnPlatform = false;
 
 	GameObject freeObjectSpace;
 
@@ -156,11 +157,11 @@ public class Player extends GameObject {
 			offX += 80 * dt;
 			tileY = 12 - marioState;
 			direction = 0;
-			if(tileX == 203){
+			if (tileX == 203) {
 				gm.getCamera().setMoveCamera(false);
-				
-			}
-			else if(tileX == 204)renderMario = false;
+
+			} else if (tileX == 204)
+				renderMario = false;
 		}
 
 	}
@@ -234,8 +235,12 @@ public class Player extends GameObject {
 		 * }
 		 */
 		// Jump and Gravity
-		if (fallDistance != 0)
+		//System.out.println("ground before"+ground);
+		if (fallDistance != 0){
 			ground = false;
+		}	
+
+		//System.out.println("ground after"+ground);
 
 		fallDistance += dt * fallSpeed;
 		if (ground) {
@@ -244,7 +249,7 @@ public class Player extends GameObject {
 			if (tas) {
 
 				for (int frame : tasJumpFrames) {
-					if (gm.frameCounter == frame) {
+					if (GameManager.frameCounter == frame) {
 						tasJump = true;
 						break;
 					}
@@ -252,6 +257,7 @@ public class Player extends GameObject {
 			}
 
 			if (gc.getInput().isKeyDown(KeyEvent.VK_W) || tasJump) {
+				standingOnPlatform = false;
 				fallDistance = jump;
 			}
 		}
@@ -289,6 +295,7 @@ public class Player extends GameObject {
 	}
 
 	private void finalPosition(GameManager gm, GameContainer gc) {
+		System.out.println(standingOnPlatform);
 		if (offY > GameManager.TS / 2) {
 			tileY++;
 			offY -= GameManager.TS;
@@ -311,22 +318,31 @@ public class Player extends GameObject {
 
 		posX = tileX * GameManager.TS + offX;
 		posY = tileY * GameManager.TS + offY;
-
+		System.out.println(tileX);
 		if (canTeleport) {
 			TeleportPipe teleportPipe = gm.getTeleportPipe(freeObjectSpace);
-			if(gc.getInput().isKey(teleportPipe.getEntranceKeycode())){
+			if (gc.getInput().isKey(teleportPipe.getEntranceKeycode())) {
 				tileX = teleportPipe.getTeleportToCoords().x;
 				tileY = teleportPipe.getTeleportToCoords().y;
 				gm.getCamera().setMoveCamera(true);
 				gm.getCamera().setOffX(teleportPipe.getCameraPosition() * GameManager.TS);
 			}
-			
 
 		}
+
 		canTeleport = false;
 
-		//System.out.println(posX/GameManager.TS + " " + posY/GameManager.TS);
-		//sSystem.out.println(posX + " " + posY);
+		if(standingOnPlatform){
+
+			posY = gm.getMovingPlatform(freeObjectSpace).getPosY() -height;
+			tileY = (int)posY/GameManager.TS;
+			standingOnPlatform = false;
+		}
+
+		//System.out.println(ground);
+
+		// System.out.println(posX/GameManager.TS + " " + posY/GameManager.TS);
+		// System.out.println(posX + " " + posY);
 	}
 
 	private void animation(GameContainer gc, float dt) {
@@ -467,8 +483,11 @@ public class Player extends GameObject {
 
 	@Override
 	public void collision(GameObject other) {
-		if (other.tag == "player")
+		
+		if (other.tag == "player"){
 			return;
+		}
+			
 		AABBComponent myC = (AABBComponent) this.findComponent("aabb");
 		AABBComponent otherC = (AABBComponent) other.findComponent("aabb");
 
@@ -492,25 +511,34 @@ public class Player extends GameObject {
 				marioState = SUPER_MARIO;
 			}
 		}
-
-		if(other.tag == "movingPlatform"){
-			if(fallDistance < 0){
+		System.out.println("colldie");
+		if (other.tag == "movingPlatform") {
+			//System.out.println("platfrom collide");
+			if (fallDistance < 0 && posY + height/2 > other.posY) {
+				//System.out.println("fall up");
 				fallDistance = 0;
 				offY = paddingTop;
-			}else if(fallDistance > 0){
+			} else if (fallDistance >= 0) {
+				//System.out.println("fall down");
 				fallDistance = 0;
-				offY = 0;
+				//offY = 0;
+				//posY = other.posY - height;
+				//offY = paddingTop;
 				ground = true;
+
+				standingOnPlatform = true;
+				freeObjectSpace = other;
 			}
 		}
-		
 		else if (other.tag == "teleportPipe") {
 			System.out.println("collide with pipe");
 			freeObjectSpace = other;
 			canTeleport = true;
 		} else {
+			
 			freeObjectSpace = null;
 			canTeleport = false;
+			standingOnPlatform = false;
 
 		}
 

@@ -11,19 +11,20 @@ public class MovingPlatform extends GameObject{
     int direction;
     public MovingPlatform(float posX, float posY, String dir){       
         assert dir.equals("UP") || dir.equals("DOWN");
-        direction = dir.equals("UP") ? 1 : -1;
+        direction = dir.equals("UP") ? -1 : 1;
 
         tag = "movingPlatform";
         this.posX = posX;
         this.posY = posY;
         tileX = (int)posX/GameManager.TS;
         tileY = (int)posY/GameManager.TS;
-        platForm = new ImageTile("/resources/images/movingPlatform.png", tileX, tileY);     
+         
         width = 48;
         height = 8;
         centerX = (int)posX + (int) (width / 2);
 		centerY = (int) posY + (int) (height / 2);
-        speedY = 2;
+        speedY = 1;
+        platForm = new ImageTile("/resources/images/movingPlatform.png", (int)width, height);   
 
         this.addComponent(new AABBComponent(this));
     }
@@ -31,12 +32,19 @@ public class MovingPlatform extends GameObject{
 
     @Override
     public void update(GameContainer gc, GameManager gm, float dt) {
+        if(direction == -1 && posY<0)posY = gc.getHeight();
+        else if(direction == 1 && posY>gc.getHeight())posY = -height;
         posY += speedY*direction;
+        this.updateComponents(gc, gm, dt);
+
     }
 
     @Override
     public void render(GameContainer gc, Renderer r) {
-       r.drawImageTile(platForm, centerY, centerX, 0,0);
+      r.drawImageTile(platForm, (int)posX, (int)posY, 0,0);
+      r.drawFillRect((int)posX,(int) posY, width, height,0);
+       this.renderComponents(gc, r);
+
     }
 
     @Override

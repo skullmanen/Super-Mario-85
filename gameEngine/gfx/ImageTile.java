@@ -5,13 +5,13 @@ public class ImageTile extends Image {
     private int tileW, tileH;
     private int tileAmountX, tileAmountY;
 
-    public ImageTile(String path, int tileW, int tileH) {
+    public ImageTile(String path, int width, int height) {
         super(path);
-        this.tileW = tileW;
-        this.tileH = tileH;
+        this.tileW = width;
+        this.tileH = height;
 
-        tileAmountX = super.getW() / tileW;
-        tileAmountY = super.getH() / tileH;
+        tileAmountX = super.getW() / width;
+        tileAmountY = super.getH() / height;
     }
 
     public int getTileW() {
