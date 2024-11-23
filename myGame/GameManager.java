@@ -231,6 +231,8 @@ public class GameManager extends AbstractGame {
 
     private void initialize_game() {
         objects.clear();
+        teleportPipes.clear();
+        movingPlatforms.clear();
         frameCounter = 0;
         gameTime = 400;
         // gameState = MENU_STATE;
@@ -296,7 +298,7 @@ public class GameManager extends AbstractGame {
 
         objects.add(new Koopa(163, 12, "red"));
         objects.add(new Flag(232, 3));
-        objects.add(new Player(154, 12));//3
+        objects.add(new Player(154, 5));//3
 
         map = new Map("lvl2/colorworld1-2.png", "lvl2/bakgrund1-2.png");
         teleportPipes.add(new TeleportPipe(new Point(161, 192)/*in pixels */, 2, 2, KeyEvent.VK_D, new Point(20, 4)/*in tiles*/, 17/*in tiles */));
@@ -307,16 +309,16 @@ public class GameManager extends AbstractGame {
             objects.add(tp);
         }
 
-        movingPlatforms.add(new MovingPlatform(100, 100, "DOWN"));
-        movingPlatforms.add(new MovingPlatform(100, 100, "DOWN"));
-        movingPlatforms.add(new MovingPlatform(100, 100, "UP"));
-        movingPlatforms.add(new MovingPlatform(100, 100, "UP"));
+        movingPlatforms.add(new MovingPlatform(2496, 100, "DOWN"));
+       // movingPlatforms.add(new MovingPlatform(100, 100, "DOWN"));
+        movingPlatforms.add(new MovingPlatform(2720, 100, "UP"));
+       // movingPlatforms.add(new MovingPlatform(100, 100, "UP"));
        // movingPlatforms.add(new MovingPlatform(50, 100, "DOWN"));
         
         for(MovingPlatform mp : movingPlatforms){
             objects.add(mp);
         }
-        camera.setMoveCamera(false);
+        camera.setMoveCamera(true);
 
         
     }
