@@ -8,7 +8,9 @@ import myGame.components.AABBComponent;
 
 public class MovingPlatform extends GameObject{
     private final ImageTile platForm;
-    int direction;
+    private int direction;
+    private boolean playerColliding = false;
+    boolean a = false;
     public MovingPlatform(float posX, float posY, String dir){       
         assert dir.equals("UP") || dir.equals("DOWN");
         direction = dir.equals("UP") ? -1 : 1;
@@ -49,6 +51,17 @@ public class MovingPlatform extends GameObject{
 
     @Override
     public void collision(GameObject other) {
-        
+        /*if(other.tag.equals("player"))playerColliding = true;
+        else playerColliding = false;*/
+
+        //if(other.tag.equals("player"))a = true;
+        //else playerColliding = false;
     }
+
+
+    public boolean isPlayerColliding() {
+        return playerColliding;
+    }
+
+    
 }

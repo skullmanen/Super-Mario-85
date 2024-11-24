@@ -296,7 +296,7 @@ public class GameManager extends AbstractGame {
            objects.add(new Koopa(koopaSpawnPosX[i], koopaSpawnPosY[i], "green"));
         }
 
-        objects.add(new Koopa(163, 12, "red"));
+        //objects.add(new Koopa(163, 12, "red"));
         objects.add(new Flag(232, 3));
         objects.add(new Player(154, 5));//3
 
