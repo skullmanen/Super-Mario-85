@@ -73,7 +73,7 @@ public class Koopa extends MovingEntity
 		dieAnimation();
 	    }
 		
-		if(koopaColor.equals("red") && !gm.getCollision(tileX+direction, tileY+1)){
+		if(koopaColor.equals("red") && !shellForm && !gm.getCollision(tileX+direction, tileY+1)){
 			direction = -direction;
 		}
 	}

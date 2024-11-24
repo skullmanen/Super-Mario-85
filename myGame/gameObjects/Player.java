@@ -42,13 +42,14 @@ public class Player extends GameObject {
 	private float timer = 2f;
 
 	private boolean deathStatsApplied = false;
-	boolean tas = false;
-	int[] tasJumpFrames = { 59, 163, 223, 283, 490, 553, 615, 670, 738, 816, 908, 1003, 1103, 1147, 1223 };
+	private boolean tas = false;
+	private int[] tasJumpFrames = { 59, 163, 223, 283, 490, 553, 615, 670, 738, 816, 908, 1003, 1103, 1147, 1223 };
 
 	private boolean canTeleport = false;
 	private boolean standingOnPlatform = false;
 
-	GameObject freeObjectSpace;
+	private GameObject freeObjectSpace;
+	private boolean withinPlatformBounds = false;
 
 	public Player(int tileX, int tileY) {
 		this.tag = "player";
@@ -75,6 +76,23 @@ public class Player extends GameObject {
 
 	@Override
 	public void update(GameContainer gc, GameManager gm, float dt) {
+		
+		/*if(standingOnPlatform)withinPlatformBounds = true;
+		if(withinPlatformBounds){
+			standingOnPlatform = true;
+		}else{
+			System.out.println("in else");
+			standingOnPlatform = false;
+		} */
+
+		
+	
+		if(freeObjectSpace != null && freeObjectSpace.tag.equals("movingPlatform") && 
+			(posX > freeObjectSpace.getPosX() + freeObjectSpace.getWidth() || posX + width < freeObjectSpace.getPosX())){
+				
+				withinPlatformBounds = false;
+				standingOnPlatform = false;
+		} 
 		if (winAnimation) {
 			winAnimation(gc, gm, dt);
 		} else {
@@ -118,6 +136,13 @@ public class Player extends GameObject {
 
 		if (dieAnimationPlaying)
 			deathAnimation();
+
+
+		
+		
+		
+
+		
 
 	}
 
@@ -290,12 +315,14 @@ public class Player extends GameObject {
 		}
 
 		if (tileY > 20)
-			marioState = DEAD_MARIO;
+			tileY = 0;
+			//marioState = DEAD_MARIO;
 		// System.exit(1);
 	}
 
 	private void finalPosition(GameManager gm, GameContainer gc) {
-		System.out.println(standingOnPlatform);
+		System.out.println("3standing on platform: "+standingOnPlatform);
+		System.out.println("4widthingbounds: "+withinPlatformBounds);
 		if (offY > GameManager.TS / 2) {
 			tileY++;
 			offY -= GameManager.TS;
@@ -318,7 +345,7 @@ public class Player extends GameObject {
 
 		posX = tileX * GameManager.TS + offX;
 		posY = tileY * GameManager.TS + offY;
-		System.out.println(tileX);
+		//System.out.println(tileX);
 		if (canTeleport) {
 			TeleportPipe teleportPipe = gm.getTeleportPipe(freeObjectSpace);
 			if (gc.getInput().isKey(teleportPipe.getEntranceKeycode())) {
@@ -336,7 +363,9 @@ public class Player extends GameObject {
 
 			posY = gm.getMovingPlatform(freeObjectSpace).getPosY() -height;
 			tileY = (int)posY/GameManager.TS;
-			standingOnPlatform = false;
+			fallDistance = 0;
+			ground = true;
+			//standingOnPlatform = false;
 		}
 
 		//System.out.println(ground);
