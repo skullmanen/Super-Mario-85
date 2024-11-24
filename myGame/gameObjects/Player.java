@@ -76,23 +76,13 @@ public class Player extends GameObject {
 
 	@Override
 	public void update(GameContainer gc, GameManager gm, float dt) {
-		
-		/*if(standingOnPlatform)withinPlatformBounds = true;
-		if(withinPlatformBounds){
-			standingOnPlatform = true;
-		}else{
-			System.out.println("in else");
-			standingOnPlatform = false;
-		} */
+		if (freeObjectSpace != null && freeObjectSpace.tag.equals("movingPlatform") &&
+				(posX > freeObjectSpace.getPosX() + freeObjectSpace.getWidth()
+						|| posX + width < freeObjectSpace.getPosX())) {
 
-		
-	
-		if(freeObjectSpace != null && freeObjectSpace.tag.equals("movingPlatform") && 
-			(posX > freeObjectSpace.getPosX() + freeObjectSpace.getWidth() || posX + width < freeObjectSpace.getPosX())){
-				
-				withinPlatformBounds = false;
-				standingOnPlatform = false;
-		} 
+			withinPlatformBounds = false;
+			standingOnPlatform = false;
+		}
 		if (winAnimation) {
 			winAnimation(gc, gm, dt);
 		} else {
@@ -136,14 +126,6 @@ public class Player extends GameObject {
 
 		if (dieAnimationPlaying)
 			deathAnimation();
-
-
-		
-		
-		
-
-		
-
 	}
 
 	private void winAnimation(GameContainer gc, GameManager gm, float dt) {
@@ -260,12 +242,12 @@ public class Player extends GameObject {
 		 * }
 		 */
 		// Jump and Gravity
-		//System.out.println("ground before"+ground);
-		if (fallDistance != 0){
+		// System.out.println("ground before"+ground);
+		if (fallDistance != 0) {
 			ground = false;
-		}	
+		}
 
-		//System.out.println("ground after"+ground);
+		// System.out.println("ground after"+ground);
 
 		fallDistance += dt * fallSpeed;
 		if (ground) {
@@ -315,14 +297,13 @@ public class Player extends GameObject {
 		}
 
 		if (tileY > 20)
-			tileY = 0;
-			//marioState = DEAD_MARIO;
+
+			marioState = DEAD_MARIO;
 		// System.exit(1);
 	}
 
 	private void finalPosition(GameManager gm, GameContainer gc) {
-		System.out.println("3standing on platform: "+standingOnPlatform);
-		System.out.println("4widthingbounds: "+withinPlatformBounds);
+
 		if (offY > GameManager.TS / 2) {
 			tileY++;
 			offY -= GameManager.TS;
@@ -345,7 +326,7 @@ public class Player extends GameObject {
 
 		posX = tileX * GameManager.TS + offX;
 		posY = tileY * GameManager.TS + offY;
-		//System.out.println(tileX);
+		// System.out.println(tileX);
 		if (canTeleport) {
 			TeleportPipe teleportPipe = gm.getTeleportPipe(freeObjectSpace);
 			if (gc.getInput().isKey(teleportPipe.getEntranceKeycode())) {
@@ -359,19 +340,15 @@ public class Player extends GameObject {
 
 		canTeleport = false;
 
-		if(standingOnPlatform){
+		if (standingOnPlatform) {
 
-			posY = gm.getMovingPlatform(freeObjectSpace).getPosY() -height;
-			tileY = (int)posY/GameManager.TS;
+			posY = gm.getMovingPlatform(freeObjectSpace).getPosY() - height;
+			tileY = (int) posY / GameManager.TS;
 			fallDistance = 0;
 			ground = true;
-			//standingOnPlatform = false;
+
 		}
 
-		//System.out.println(ground);
-
-		// System.out.println(posX/GameManager.TS + " " + posY/GameManager.TS);
-		// System.out.println(posX + " " + posY);
 	}
 
 	private void animation(GameContainer gc, float dt) {
@@ -512,11 +489,11 @@ public class Player extends GameObject {
 
 	@Override
 	public void collision(GameObject other) {
-		
-		if (other.tag == "player"){
+
+		if (other.tag == "player") {
 			return;
 		}
-			
+
 		AABBComponent myC = (AABBComponent) this.findComponent("aabb");
 		AABBComponent otherC = (AABBComponent) other.findComponent("aabb");
 
@@ -542,29 +519,28 @@ public class Player extends GameObject {
 		}
 		System.out.println("colldie");
 		if (other.tag == "movingPlatform") {
-			//System.out.println("platfrom collide");
-			if (fallDistance < 0 && posY + height/2 > other.posY) {
-				//System.out.println("fall up");
+			// System.out.println("platfrom collide");
+			if (fallDistance < 0 && posY + height / 2 > other.posY) {
+				// System.out.println("fall up");
 				fallDistance = 0;
 				offY = paddingTop;
 			} else if (fallDistance >= 0) {
-				//System.out.println("fall down");
+				// System.out.println("fall down");
 				fallDistance = 0;
-				//offY = 0;
-				//posY = other.posY - height;
-				//offY = paddingTop;
+				// offY = 0;
+				// posY = other.posY - height;
+				// offY = paddingTop;
 				ground = true;
 
 				standingOnPlatform = true;
 				freeObjectSpace = other;
 			}
-		}
-		else if (other.tag == "teleportPipe") {
+		} else if (other.tag == "teleportPipe") {
 			System.out.println("collide with pipe");
 			freeObjectSpace = other;
 			canTeleport = true;
 		} else {
-			
+
 			freeObjectSpace = null;
 			canTeleport = false;
 			standingOnPlatform = false;
