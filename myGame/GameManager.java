@@ -6,6 +6,7 @@ import myGame.gameObjects.GameObject;
 import myGame.gameObjects.Player;
 import myGame.gameObjects.Map;
 import myGame.gameObjects.MovingPlatform;
+import myGame.gameObjects.PiranhaPlant;
 import gameEngine.AbstractGame;
 import gameEngine.GameContainer;
 import gameEngine.Renderer;
@@ -127,6 +128,22 @@ public class GameManager extends AbstractGame {
 
                 AABBCollision.update();
 
+                switch (currentLevel) {
+                    case 1:
+                        
+                        break;
+                    case 2:
+                        if(getObject("player").getTileX() == 201 && getObject("player").getTileY()<4){
+                            System.out.println("FEKKJKJS");
+                            camera.setMoveCamera(false);
+                        }else if(getObject("player").getTileX() == 235){
+                            camera.setMoveCamera(false);
+                        }
+                        break;
+                    default:
+                        break;
+                }
+
                 camera.update(gc, this, dt);
 
                 break;
@@ -148,6 +165,21 @@ public class GameManager extends AbstractGame {
 
                 camera.update(gc, this, dt);
                 gameTime-=1;
+
+                switch (currentLevel) {
+                    case 1:
+                
+                    
+                        break;
+                    case 2:
+                        
+                        if(getObject("player").getTileX() == 233){
+                            camera.setMoveCamera(false);
+                        }
+                        break;
+                    default:
+                        break;
+                }
                 if(gameTime<= 0){
                     gameState = PLAY_STATE;
                     currentLevel++;
@@ -229,6 +261,10 @@ public class GameManager extends AbstractGame {
         return camera;
     }
 
+    public int getCurrentLevel() {
+        return currentLevel;
+    }
+
     private void initialize_game() {
         objects.clear();
         teleportPipes.clear();
@@ -283,22 +319,30 @@ public class GameManager extends AbstractGame {
 
         int koopaSpawnPosX[] = new int[] {
              61, 63, 76
-    };
-    int koopaSpawnPosY[] = new int[] {
-            12, 12, 12
-    };
+        };
+        int koopaSpawnPosY[] = new int[] {
+                12, 12, 12
+        };
 
+
+        objects.add(new PiranhaPlant(1925, 133));
+        objects.add(new PiranhaPlant(2022, 121));
+        objects.add(new PiranhaPlant(2118, 153));
+
+        /*objects.add(new PiranhaPlant(120, 8));
+        objects.add(new PiranhaPlant(124,   10));
+        objects.add(new PiranhaPlant(132, 8));*/
         for (int i = 0; i < goombaSpawnPosX.length; i++) {
-        objects.add(new Goomba(goombaSpawnPosX[i], goombaSpawnPosY[i]));
+            objects.add(new Goomba(goombaSpawnPosX[i], goombaSpawnPosY[i]));
         }
 
         for (int i = 0; i < koopaSpawnPosX.length; i++) {
            objects.add(new Koopa(koopaSpawnPosX[i], koopaSpawnPosY[i], "green"));
         }
 
-        //objects.add(new Koopa(163, 12, "red"));
+        objects.add(new Koopa(163, 12, "red"));
         objects.add(new Flag(232, 3));
-        objects.add(new Player(154, 5));//3
+        objects.add(new Player(120, 5));//3
 
         map = new Map("lvl2/colorworld1-2.png", "lvl2/bakgrund1-2.png");
         teleportPipes.add(new TeleportPipe(new Point(161, 192)/*in pixels */, 2, 2, KeyEvent.VK_D, new Point(20, 4)/*in tiles*/, 17/*in tiles */));
@@ -309,10 +353,10 @@ public class GameManager extends AbstractGame {
             objects.add(tp);
         }
 
-        movingPlatforms.add(new MovingPlatform(2496, 100, "DOWN"));
-       // movingPlatforms.add(new MovingPlatform(100, 100, "DOWN"));
-        movingPlatforms.add(new MovingPlatform(2720, 100, "UP"));
-       // movingPlatforms.add(new MovingPlatform(100, 100, "UP"));
+        movingPlatforms.add(new MovingPlatform(2512, 4, "DOWN"));
+        movingPlatforms.add(new MovingPlatform(2512, 100, "DOWN"));
+        movingPlatforms.add(new MovingPlatform(2752, 200, "UP"));
+        movingPlatforms.add(new MovingPlatform(2752, 104, "UP"));
        // movingPlatforms.add(new MovingPlatform(50, 100, "DOWN"));
         
         for(MovingPlatform mp : movingPlatforms){
