@@ -342,7 +342,7 @@ public class Player extends GameObject {
 
 		posX = tileX * GameManager.TS + offX;
 		posY = tileY * GameManager.TS + offY;
-		System.out.println(tileX);
+		//System.out.println(tileX);
 		if (canTeleport) {
 			TeleportPipe teleportPipe = gm.getTeleportPipe(freeObjectSpace);
 			if (gc.getInput().isKey(teleportPipe.getEntranceKeycode())) {
@@ -514,7 +514,7 @@ public class Player extends GameObject {
 		AABBComponent otherC = (AABBComponent) other.findComponent("aabb");
 
 		if (!other.isDieAnimationPlaying() && !dieAnimationPlaying) {
-			if ((other.getTag().equals("goomba") || other.getTag().equals("koopa")) && !dieAnimationPlaying) {
+			if ((other.getTag().equals("goomba") || other.getTag().equals("koopa"))) {
 
 				if (other.getPosY() + other.getHeight() < myC.getCenterY()) { // other is over player
 					loseLife();
@@ -529,11 +529,13 @@ public class Player extends GameObject {
 					}
 				}
 
-			} else if (other.getTag().equals("mushroom") && !dieAnimationPlaying) {
+			} else if (other.getTag().equals("mushroom")) {
 				marioState = SUPER_MARIO;
+			}else if(other.getTag().equals("piranhaPlant")){
+				loseLife();
 			}
 		}
-		System.out.println("colldie");
+		
 		if (other.tag == "movingPlatform") {
 			// System.out.println("platfrom collide");
 			if (fallDistance < 0 && posY + height / 2 > other.posY) {

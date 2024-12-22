@@ -20,9 +20,10 @@ public class PiranhaPlant extends GameObject{
         width = 18;
 		height = 24;
         direction = 1;
-        speedY = 1/2;
+        speedY = 1;
         upperPositionBound = posY;
         lowerPositionBound = upperPositionBound + height;
+       
         centerX = (int) posX + (int) (width / 2);
 		centerY = (int) posY + (int) (height / 2);
 
@@ -33,11 +34,10 @@ public class PiranhaPlant extends GameObject{
     public void update(GameContainer gc, GameManager gm, float dt) {
        
         if(posY > lowerPositionBound || posY < upperPositionBound){
-            System.out.println("hello");
             direction = -direction;
         }
-
-        posY += speedY;
+        
+        posY += speedY * direction;
        
         this.updateComponents(gc, gm, dt);
     }

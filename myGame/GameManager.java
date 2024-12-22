@@ -52,6 +52,7 @@ public class GameManager extends AbstractGame {
     public float gameTime;
     public static int frameCounter = 0;
 
+    private int amountOfLevels = 2;
     private int currentLevel = 2;
     
     
@@ -112,6 +113,23 @@ public class GameManager extends AbstractGame {
                     leaderBoard.addTime(gameTime);
                 }
 
+                switch (currentLevel) {
+                    case 1:
+                        
+                        break;
+                    case 2:
+                        if(getObject("player").getTileX() == 201 && getObject("player").getTileY()<4){
+                            System.out.println("FEKKJKJS");
+                            camera.setMoveCamera(false);
+                        }else if(getObject("player").getTileX() == 235){
+                            camera.setMoveCamera(false);
+                        }
+                        break;
+                    default:
+                        
+                        break;
+                }
+
                 for (int i = 0; i < objects.size(); i++) {
                     objects.get(i).update(gc, this, dt);
 
@@ -128,21 +146,7 @@ public class GameManager extends AbstractGame {
 
                 AABBCollision.update();
 
-                switch (currentLevel) {
-                    case 1:
-                        
-                        break;
-                    case 2:
-                        if(getObject("player").getTileX() == 201 && getObject("player").getTileY()<4){
-                            System.out.println("FEKKJKJS");
-                            camera.setMoveCamera(false);
-                        }else if(getObject("player").getTileX() == 235){
-                            camera.setMoveCamera(false);
-                        }
-                        break;
-                    default:
-                        break;
-                }
+                
 
                 camera.update(gc, this, dt);
 
@@ -183,6 +187,7 @@ public class GameManager extends AbstractGame {
                 if(gameTime<= 0){
                     gameState = PLAY_STATE;
                     currentLevel++;
+                    currentLevel = currentLevel>amountOfLevels ? 1 : currentLevel;
                     initialize_game();
                 }
 
