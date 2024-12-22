@@ -531,6 +531,7 @@ public class Player extends GameObject {
 
 			} else if (other.getTag().equals("mushroom")) {
 				marioState = SUPER_MARIO;
+				posY-=16;
 			}else if(other.getTag().equals("piranhaPlant")){
 				loseLife();
 			}
@@ -565,6 +566,10 @@ public class Player extends GameObject {
 
 		}
 
+	}
+
+	public boolean isisBig(){
+		return isBig;
 	}
 
 	public void setRenderMario(boolean renderMario) {

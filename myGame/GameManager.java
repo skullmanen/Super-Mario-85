@@ -48,12 +48,13 @@ public class GameManager extends AbstractGame {
     private DeathScreen death;
     private SoundClip mouseKlick;
     private LeaderBoard leaderBoard;
+    private Player player;
 
     public float gameTime;
     public static int frameCounter = 0;
 
     private int amountOfLevels = 2;
-    private int currentLevel = 2;
+    private int currentLevel = 1;
     
     
 
@@ -232,6 +233,10 @@ public class GameManager extends AbstractGame {
         return null;
     }
 
+    public Player getPlayer(){
+        return player;
+    }
+
     public TeleportPipe getTeleportPipe(GameObject object) {
         for (TeleportPipe tp : teleportPipes) {
             if (tp == object)
@@ -308,7 +313,8 @@ public class GameManager extends AbstractGame {
 
         objects.add(new Flag(198, 3));
         objects.add(new Koopa(107, 12, "green"));
-        objects.add(new Player(3, 12));
+        player = new Player(3, 12);
+        objects.add(player);
 
         map = new Map("lvl1/colorWorld1_1(1).png", "lvl1/bakgrund1-1.png");
 
@@ -347,7 +353,8 @@ public class GameManager extends AbstractGame {
 
         objects.add(new Koopa(163, 12, "red"));
         objects.add(new Flag(232, 3));
-        objects.add(new Player(120, 5));//3
+        player = new Player(120, 5);
+        objects.add(player);//3
 
         map = new Map("lvl2/colorworld1-2.png", "lvl2/bakgrund1-2.png");
         teleportPipes.add(new TeleportPipe(new Point(161, 192)/*in pixels */, 2, 2, KeyEvent.VK_D, new Point(20, 4)/*in tiles*/, 17/*in tiles */));

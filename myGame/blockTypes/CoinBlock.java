@@ -7,6 +7,9 @@ import java.util.Random;
 import myGame.GameManager;
 import myGame.gameObjects.Block;
 import myGame.gameObjects.Coin;
+import myGame.gameObjects.FireFlower;
+import myGame.gameObjects.GameObject;
+import myGame.gameObjects.PowerUp;
 import myGame.gameObjects.Goomba;
 import myGame.gameObjects.Mushroom;
 
@@ -36,12 +39,15 @@ public class CoinBlock extends Block {
 
 			case HIT_STATE:
 				if (anim == 0) {
-					// int a = random.nextInt(2);
-					int a = 1;
 					if (contains.equals("coin")) {
 						gm.addObject(new Coin(tileX, tileY - 1));
 					} else if (contains.equals("mushroom")) {
-						gm.addObject(new Mushroom(tileX, tileY));
+						if(gm.getPlayer().isisBig()){
+							gm.addObject((GameObject)new FireFlower(tileX, tileY));
+						}else{
+							gm.addObject((GameObject)new Mushroom(tileX, tileY));
+						}
+						
 					}
 
 				}
