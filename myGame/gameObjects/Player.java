@@ -27,6 +27,8 @@ public class Player extends GameObject {
 			16, 16);
 	private final ImageTile bigMarioSpriteSheet = new ImageTile("/resources/images/mario/MarioSpriteSheet_big.png", 16,
 			32);
+	private final ImageTile fireMarioSpriteSheet = new ImageTile("/resources/images/mario/MarioSpriteSheet_fire.png", 16,
+			32);
 	private float anim = 3f;
 
 	public final int SMALL_MARIO = 0, SUPER_MARIO = 1, FIRE_MARIO = 2, STAR_MARIO = 3, DEAD_MARIO = 4;
@@ -50,6 +52,9 @@ public class Player extends GameObject {
 
 	private GameObject freeObjectSpace;
 	private boolean withinPlatformBounds = false;
+	private boolean isInvincible;
+	private long invincibilityStartTime;
+	private static final long INVINCIBILITY_DURATION = 2000; // 2 seconds
 
 	public Player(int tileX, int tileY) {
 		this.tag = "player";
@@ -71,6 +76,9 @@ public class Player extends GameObject {
 
 		winAnimation = false;
 
+		isInvincible = false;
+    	invincibilityStartTime = 0;
+
 		this.addComponent(new AABBComponent(this));
 	}
 
@@ -83,6 +91,14 @@ public class Player extends GameObject {
 			withinPlatformBounds = false;
 			standingOnPlatform = false;
 		}
+
+		
+		if (isInvincible) { //check cooldown period
+			if (System.currentTimeMillis() - invincibilityStartTime > INVINCIBILITY_DURATION) {
+				isInvincible = false;
+			}
+		}
+
 		if (winAnimation) {
 			winAnimation(gc, gm, dt);
 		} else {
@@ -192,8 +208,8 @@ public class Player extends GameObject {
 	private void updatePosX(GameContainer gc, GameManager gm, float dt) {
 		// Right
 		if ((gc.getInput().isKey(KeyEvent.VK_D)) && !dieAnimationPlaying) {
-			if ((gm.getCollision(tileX + 1, tileY + marioState)
-					|| gm.getCollision(tileX + 1, tileY + marioState + (int) Math.signum((int) offY)))) {
+			if ((gm.getCollision(tileX + 1, tileY + (isBig ? 1 : 0))
+					|| gm.getCollision(tileX + 1, tileY + (isBig ? 1 : 0) + (int) Math.signum((int) offY)))) {
 				runSpeed += ACC_X;
 				runSpeed = constrain(runSpeed, SPEED_MAX, -SPEED_MAX);
 				offX += dt * runSpeed;
@@ -212,8 +228,8 @@ public class Player extends GameObject {
 		// Left
 		if (gc.getInput().isKey(KeyEvent.VK_A) && !dieAnimationPlaying) {
 			if (posX > gm.getCamera().getOffX()) { // Collision to camera
-				if ((gm.getCollision(tileX - 1, tileY + marioState)
-						|| gm.getCollision(tileX - 1, tileY + marioState + (int) Math.signum((int) offY)))) {
+				if ((gm.getCollision(tileX - 1, tileY + (isBig ? 1 : 0))
+						|| gm.getCollision(tileX - 1, tileY + (isBig ? 1 : 0) + (int) Math.signum((int) offY)))) {
 					runSpeed -= ACC_X;
 					runSpeed = constrain(runSpeed, SPEED_MAX, -SPEED_MAX);
 					offX += dt * runSpeed;
@@ -303,9 +319,9 @@ public class Player extends GameObject {
 				}
 			}
 		} else if (fallDistance > 0) {
-			if ((gm.getCollision(tileX, tileY + 1 + marioState) || gm.getCollision(
-					tileX + (int) Math.signum((int) Math.abs(offX) > padding ? offX : 0), tileY + 1 + marioState))
-					&& offY > 0 && !dieAnimationPlaying) {
+			if ((gm.getCollision(tileX, tileY + 1 + (isBig?1:0)) || gm.getCollision(
+					tileX + (int) Math.signum((int) Math.abs(offX) > padding ? offX : 0), tileY + 1 + (isBig?1:0))
+					&& offY > 0 && !dieAnimationPlaying)) {
 				fallDistance = 0;
 				offY = 0;
 				ground = true;
@@ -448,7 +464,8 @@ public class Player extends GameObject {
 					break;
 
 				case FIRE_MARIO:
-					marioState = SMALL_MARIO;
+					r.drawImageTile(fireMarioSpriteSheet, (int) posX, (int) posY, (int) anim, direction);
+					
 					break;
 
 				case STAR_MARIO:
@@ -480,16 +497,25 @@ public class Player extends GameObject {
 				break;
 
 			case SUPER_MARIO:
-				marioState = SMALL_MARIO; // kom ihåg att det är en cooldownperiod när han tar skada
+				startCooldown();
+				marioState = SMALL_MARIO; 
 				break;
 
 			case FIRE_MARIO:
-				marioState = SMALL_MARIO;
+				startCooldown();
+				marioState = SUPER_MARIO;
 				break;
 
 			case STAR_MARIO:
 
 				break;
+		}
+	}
+
+	private void startCooldown() {
+		if(!isInvincible){
+			isInvincible = true;
+			invincibilityStartTime = System.currentTimeMillis();
 		}
 	}
 
@@ -516,14 +542,15 @@ public class Player extends GameObject {
 		if (!other.isDieAnimationPlaying() && !dieAnimationPlaying) {
 			if ((other.getTag().equals("goomba") || other.getTag().equals("koopa"))) {
 
-				if (other.getPosY() + other.getHeight() < myC.getCenterY()) { // other is over player
+				if (other.getPosY() + other.getHeight() < myC.getCenterY() && !isInvincible) { // other is over player'
+
 					loseLife();
 				} else if (posY + height < otherC.getCenterY()) { // jag över han
 					fallDistance = -2f;
 				} else { // bredvid
 					if ((!other.isShellForm()
 							|| (other.isShellForm() && other.getDirection() == signum(posX - other.getPosX())))
-							&& other.getSpeedX() != 0) {
+							&& other.getSpeedX() != 0 && !isInvincible) {
 
 						loseLife();
 					}
@@ -532,6 +559,9 @@ public class Player extends GameObject {
 			} else if (other.getTag().equals("mushroom")) {
 				marioState = SUPER_MARIO;
 				posY-=16;
+			
+			}else if(other.getTag().equals("fireFlower")){
+				marioState = FIRE_MARIO;
 			}else if(other.getTag().equals("piranhaPlant")){
 				loseLife();
 			}
@@ -555,7 +585,7 @@ public class Player extends GameObject {
 				freeObjectSpace = other;
 			}
 		} else if (other.tag == "teleportPipe") {
-			System.out.println("collide with pipe");
+			//System.out.println("collide with pipe");
 			freeObjectSpace = other;
 			canTeleport = true;
 		} else {

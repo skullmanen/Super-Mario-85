@@ -337,7 +337,7 @@ public class GameManager extends AbstractGame {
 
 
         objects.add(new PiranhaPlant(1925, 133));
-        objects.add(new PiranhaPlant(2022, 121));
+        objects.add(new PiranhaPlant(2021, 121));
         objects.add(new PiranhaPlant(2118, 153));
 
         /*objects.add(new PiranhaPlant(120, 8));
@@ -353,7 +353,7 @@ public class GameManager extends AbstractGame {
 
         objects.add(new Koopa(163, 12, "red"));
         objects.add(new Flag(232, 3));
-        player = new Player(120, 5);
+        player = new Player(3, 12);
         objects.add(player);//3
 
         map = new Map("lvl2/colorworld1-2.png", "lvl2/bakgrund1-2.png");
