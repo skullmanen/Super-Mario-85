@@ -32,7 +32,7 @@ public class Player extends GameObject {
 	private float anim = 3f;
 
 	public final int SMALL_MARIO = 0, SUPER_MARIO = 1, FIRE_MARIO = 2, STAR_MARIO = 3, DEAD_MARIO = 4;
-	public int marioState = 0;
+	public int marioState;
 
 	private boolean renderMario = true;
 
@@ -52,11 +52,11 @@ public class Player extends GameObject {
 
 	private GameObject freeObjectSpace;
 	private boolean withinPlatformBounds = false;
-	private boolean isInvincible;
+	//private boolean isInvincible;
 	private long invincibilityStartTime;
 	private static final long INVINCIBILITY_DURATION = 2000; // 2 seconds
 
-	public Player(int tileX, int tileY) {
+	public Player(int tileX, int tileY, int startMarioState) {
 		this.tag = "player";
 		this.tileX = tileX;
 		this.tileY = tileY;
@@ -78,6 +78,8 @@ public class Player extends GameObject {
 
 		isInvincible = false;
     	invincibilityStartTime = 0;
+
+		marioState = startMarioState;
 
 		this.addComponent(new AABBComponent(this));
 	}
@@ -129,7 +131,12 @@ public class Player extends GameObject {
 				break;
 
 			case FIRE_MARIO:
-
+				if (!isBig) {
+					// paddingTop = -16;
+					height = 32;
+					centerY -= GameManager.TS / 2;
+					isBig = true;
+				}
 				break;
 
 			case STAR_MARIO:
@@ -490,25 +497,27 @@ public class Player extends GameObject {
 	}
 
 	private void loseLife() {
-
-		switch (marioState) {
-			case SMALL_MARIO:
-				dieAnimationPlaying = true;
-				break;
-
-			case SUPER_MARIO:
-				startCooldown();
-				marioState = SMALL_MARIO; 
-				break;
-
-			case FIRE_MARIO:
-				startCooldown();
-				marioState = SUPER_MARIO;
-				break;
-
-			case STAR_MARIO:
-
-				break;
+		
+			switch (marioState) {
+				case SMALL_MARIO:
+					dieAnimationPlaying = true;
+					break;
+	
+				case SUPER_MARIO:
+					startCooldown();
+					marioState = SMALL_MARIO; 
+					break;
+	
+				case FIRE_MARIO:
+					startCooldown();
+					marioState = SUPER_MARIO;
+					break;
+	
+				case STAR_MARIO:
+	
+					break;
+			
+		
 		}
 	}
 
@@ -521,6 +530,7 @@ public class Player extends GameObject {
 
 	private void deathAnimation() {
 		if (!deathStatsApplied) {
+			marioState = 0;
 			runSpeed = 0;
 			fallDistance = -5f;
 			deathStatsApplied = true;
@@ -539,10 +549,10 @@ public class Player extends GameObject {
 		AABBComponent myC = (AABBComponent) this.findComponent("aabb");
 		AABBComponent otherC = (AABBComponent) other.findComponent("aabb");
 
-		if (!other.isDieAnimationPlaying() && !dieAnimationPlaying) {
+		if (!other.isDieAnimationPlaying() && !dieAnimationPlaying  && !isInvincible) {
 			if ((other.getTag().equals("goomba") || other.getTag().equals("koopa"))) {
 
-				if (other.getPosY() + other.getHeight() < myC.getCenterY() && !isInvincible) { // other is over player'
+				if (other.getPosY() + other.getHeight() < myC.getCenterY()) { // other is over player'
 
 					loseLife();
 				} else if (posY + height < otherC.getCenterY()) { // jag över han
@@ -550,19 +560,13 @@ public class Player extends GameObject {
 				} else { // bredvid
 					if ((!other.isShellForm()
 							|| (other.isShellForm() && other.getDirection() == signum(posX - other.getPosX())))
-							&& other.getSpeedX() != 0 && !isInvincible) {
+							&& other.getSpeedX() != 0) {
 
 						loseLife();
 					}
 				}
 
-			} else if (other.getTag().equals("mushroom")) {
-				marioState = SUPER_MARIO;
-				posY-=16;
-			
-			}else if(other.getTag().equals("fireFlower")){
-				marioState = FIRE_MARIO;
-			}else if(other.getTag().equals("piranhaPlant")){
+			} else if(other.getTag().equals("piranhaPlant")){
 				loseLife();
 			}
 		}
@@ -588,7 +592,13 @@ public class Player extends GameObject {
 			//System.out.println("collide with pipe");
 			freeObjectSpace = other;
 			canTeleport = true;
-		} else {
+		} else if (other.getTag().equals("mushroom")) {
+			marioState = SUPER_MARIO;
+			posY-=16;
+		
+		}else if(other.getTag().equals("fireFlower")){
+			marioState = FIRE_MARIO;
+		}else {
 
 			freeObjectSpace = null;
 			canTeleport = false;
@@ -604,8 +614,10 @@ public class Player extends GameObject {
 
 	public void setRenderMario(boolean renderMario) {
 		this.renderMario = renderMario;
-	}
+	}	
 
-	
+	public int getMarioState(){
+		return marioState;
+	}
 
 }

@@ -82,7 +82,7 @@ public class Goomba extends MovingEntity {
 	@Override
 	public void collision(GameObject other) {
 		if (!other.isDieAnimationPlaying()) {
-			if (other.getTag().equals("player")) {
+			if (other.getTag().equals("player") && !other.isInvincible) {
 
 				AABBComponent myC = (AABBComponent) this.findComponent("aabb");
 				AABBComponent otherC = (AABBComponent) other.findComponent("aabb");
@@ -90,7 +90,7 @@ public class Goomba extends MovingEntity {
 
 				}
 
-				else if (other.getPosY() + other.getHeight() < myC.getCenterY()) { // player is over goomba
+				else if (other.getPosY() + other.getHeight() < myC.getCenterY() ) { // player is over goomba
 					crushed = true;
 
 				}

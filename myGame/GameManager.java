@@ -49,7 +49,7 @@ public class GameManager extends AbstractGame {
     private SoundClip mouseKlick;
     private LeaderBoard leaderBoard;
     private Player player;
-
+    private int startMarioState = 0;
     public float gameTime;
     public static int frameCounter = 0;
 
@@ -111,6 +111,7 @@ public class GameManager extends AbstractGame {
                 if (getObject("player").getTileX() == getObject("flag").getTileX()) {
                     gameState = WIN_STATE;
                     getObject("player").setWinAnimation(true);
+                    startMarioState = player.getMarioState();
                     leaderBoard.addTime(gameTime);
                 }
 
@@ -195,7 +196,7 @@ public class GameManager extends AbstractGame {
                 break;
 
             case FAIL_STATE:
-                // System.out.println("hllo");
+                startMarioState = 0;
 
                 break;
 
@@ -313,7 +314,7 @@ public class GameManager extends AbstractGame {
 
         objects.add(new Flag(198, 3));
         objects.add(new Koopa(107, 12, "green"));
-        player = new Player(3, 12);
+        player = new Player(3, 12, startMarioState);
         objects.add(player);
 
         map = new Map("lvl1/colorWorld1_1(1).png", "lvl1/bakgrund1-1.png");
@@ -353,7 +354,7 @@ public class GameManager extends AbstractGame {
 
         objects.add(new Koopa(163, 12, "red"));
         objects.add(new Flag(232, 3));
-        player = new Player(3, 12);
+        player = new Player(3, 12, startMarioState);
         objects.add(player);//3
 
         map = new Map("lvl2/colorworld1-2.png", "lvl2/bakgrund1-2.png");

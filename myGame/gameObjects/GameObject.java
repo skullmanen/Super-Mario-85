@@ -22,6 +22,7 @@ public abstract class GameObject {
     protected boolean shellForm;
     protected int direction;
     protected boolean winAnimation;
+    protected boolean isInvincible;
 
     protected ArrayList<Component> components = new ArrayList<>();
 
@@ -205,6 +206,10 @@ public abstract class GameObject {
 
     public void setWinAnimation(boolean b) {
         winAnimation = b;
+    }
+
+    public boolean isisInvincible(){
+        return isInvincible;
     }
 
 }
