@@ -548,7 +548,9 @@ public class Player extends GameObject {
 
 		AABBComponent myC = (AABBComponent) this.findComponent("aabb");
 		AABBComponent otherC = (AABBComponent) other.findComponent("aabb");
+		if(dieAnimationPlaying)return;
 
+		
 		if (!other.isDieAnimationPlaying() && !dieAnimationPlaying  && !isInvincible) {
 			if ((other.getTag().equals("goomba") || other.getTag().equals("koopa"))) {
 
