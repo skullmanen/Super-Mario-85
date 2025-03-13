@@ -328,9 +328,10 @@ public class Player extends GameObject {
 		} else if (fallDistance > 0) {
 			if ((gm.getCollision(tileX, tileY + 1 + (isBig?1:0)) || gm.getCollision(
 					tileX + (int) Math.signum((int) Math.abs(offX) > padding ? offX : 0), tileY + 1 + (isBig?1:0))
-					&& offY > 0 && !dieAnimationPlaying)) {
+					&& offY > 0) && !dieAnimationPlaying) {
 				fallDistance = 0;
 				offY = 0;
+				System.out.println("fall down");
 				ground = true;
 			}
 		}
@@ -380,13 +381,15 @@ public class Player extends GameObject {
 		canTeleport = false;
 
 		if (standingOnPlatform) {
-
+			System.out.println("standing on platform");
 			posY = gm.getMovingPlatform(freeObjectSpace).getPosY() - height;
 			tileY = (int) posY / GameManager.TS;
 			fallDistance = 0;
 			ground = true;
 
 		}
+
+		System.out.println(dieAnimationPlaying);
 
 	}
 
@@ -585,6 +588,7 @@ public class Player extends GameObject {
 				// offY = 0;
 				// posY = other.posY - height;
 				// offY = paddingTop;
+				System.out.println("in collidion with movingplatform");
 				ground = true;
 
 				standingOnPlatform = true;
