@@ -375,7 +375,7 @@ public class GameManager extends AbstractGame {
         for(MovingPlatform mp : movingPlatforms){
             objects.add(mp);
         }
-        camera.setMoveCamera(true);
+        camera.setMoveCamera(false);
 
         
     }

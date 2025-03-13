@@ -55,6 +55,8 @@ public class Player extends GameObject {
 	//private boolean isInvincible;
 	private long invincibilityStartTime;
 	private static final long INVINCIBILITY_DURATION = 2000; // 2 seconds
+	private static final long FIREBALL_COOLDOWN_DURATION = 500; // 0.5 seconds
+private long lastFireballTime = 0;
 
 	public Player(int tileX, int tileY, int startMarioState) {
 		this.tag = "player";
@@ -137,6 +139,15 @@ public class Player extends GameObject {
 					centerY -= GameManager.TS / 2;
 					isBig = true;
 				}
+
+				if (gc.getInput().isKey(KeyEvent.VK_SPACE)) {
+					long currentTime = System.currentTimeMillis();
+					if (currentTime - lastFireballTime > FIREBALL_COOLDOWN_DURATION) {
+						gm.addObject(new FireBall(posX, posY));
+						lastFireballTime = currentTime;
+					}
+				}
+
 				break;
 
 			case STAR_MARIO:
