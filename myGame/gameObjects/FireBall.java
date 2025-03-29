@@ -24,8 +24,7 @@ public class FireBall extends GameObject{
     @Override
     public void render(GameContainer gc, Renderer r) {
        // r.drawFillRect((int)posX, (int)posY, 100, 100, 0xff0000ff);
-        r.drawImageTile(fireballSpritesheet, (int) posX, (int) posY, 0,0);
-
+        r.drawImageTile(fireballSpritesheet, (int) posX, (int) posY, animation,0);
     }
 
     @Override
