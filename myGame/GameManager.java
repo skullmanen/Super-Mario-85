@@ -205,9 +205,7 @@ public class GameManager extends AbstractGame {
 
     @Override
     public void render(GameContainer gc, Renderer r) {
-        System.out.println(r.p.length);
         map.renderBackground(gc, r);
-
         for (GameObject obj : objects) {
             obj.render(gc, r);
             obj.renderComponents(gc, r);

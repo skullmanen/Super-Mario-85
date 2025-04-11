@@ -14,19 +14,20 @@ public class FireBall extends GameObject{
     private float animation = 0;
     private int animationFrames = 4;
     private float speedX;
-    private float speedY = 2f; 
-    private final float gravity = 0.1f; // Gravity for bouncing
-    private final float bounceFactor = -0.6f; // Reduce speed after each bounce
-
+    private float speedY = 5f; // Initial vertical speed
+    private final float gravity = 0.5f; // Gravity for bouncing
+    private int bounceCount = 0;
+    private final int maxBounces = 3; // Maximum number of bounces before stopping
 
     public FireBall(float posX, float posY, int dir){
         this.tag = "fireball";
-        this.posX = posX;
+        this.posX = posX+15;
         this.posY = posY;
         this.width = 16;
         this.height = 16;
         this.direction = dir==0?1:-1;
-        this.speedX = direction * 3f; // Set speed based on direction
+        this.speedX = direction * 5f; // Set speed based on direction
+
 
         this.addComponent(new AABBComponent(this));
 
@@ -39,14 +40,16 @@ public class FireBall extends GameObject{
 
         // Apply gravity
         speedY += gravity;
+        if(speedY > 5f){
+            speedY = 5f;
+        }
         
         if (gm.getCollision((int) (posX / GameManager.TS), (int) (posY / GameManager.TS)+1)) {
             posY = (int) (posY / GameManager.TS) * GameManager.TS; // Snap to ground
-            speedY *= bounceFactor; // Reverse and reduce speed for bounce
-
-            // Stop bouncing if speed is too low
-            if (Math.abs(speedY) < 0.5f) {
-                speedY = 0;
+            speedY = -4f; 
+            bounceCount++;
+            if (bounceCount >= maxBounces) {
+                dead = true; // Mark the fireball for removal
             }
         }
 
@@ -67,7 +70,7 @@ public class FireBall extends GameObject{
             }
         }
         animation %= animationFrames;
-        animation+=0.25;
+        animation+=0.4;
 
         this.updateComponents(gc, gm, dt);
 
