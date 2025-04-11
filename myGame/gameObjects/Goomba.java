@@ -133,6 +133,9 @@ public class Goomba extends MovingEntity {
 				}
 			}
 		}
+		if(other.getTag().equals("fireball")){
+			dieAnimation2 = true;
+		}
 
 	}
 

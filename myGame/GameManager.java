@@ -49,12 +49,12 @@ public class GameManager extends AbstractGame {
     private SoundClip mouseKlick;
     private LeaderBoard leaderBoard;
     private Player player;
-    private int startMarioState = 0;
+    private int startMarioState = 2;
     public float gameTime;
     public static int frameCounter = 0;
 
     private int amountOfLevels = 2;
-    private int currentLevel = 1;
+    private int currentLevel = 2;
     
     
 
@@ -210,6 +210,7 @@ public class GameManager extends AbstractGame {
 
         for (GameObject obj : objects) {
             obj.render(gc, r);
+            obj.renderComponents(gc, r);
         }
 
         map.renderBlocks(gc, r);

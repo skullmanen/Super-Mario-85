@@ -139,11 +139,11 @@ private long lastFireballTime = 0;
 					centerY -= GameManager.TS / 2;
 					isBig = true;
 				}
-
+			//	System.out.println(direction);
 				if (gc.getInput().isKey(KeyEvent.VK_SPACE)) {
 					long currentTime = System.currentTimeMillis();
 					if (currentTime - lastFireballTime > FIREBALL_COOLDOWN_DURATION) {
-						gm.addObject(new FireBall(posX, posY));
+						gm.addObject(new FireBall(posX, posY, direction));
 						lastFireballTime = currentTime;
 					}
 				}
@@ -237,7 +237,7 @@ private long lastFireballTime = 0;
 					offX = padding;
 				}
 			}
-
+			direction = 1;
 			runSpeed += ACC_X;
 			runSpeed = constrain(runSpeed, SPEED_MAX, -SPEED_MAX);
 			offX += dt * runSpeed;
@@ -265,6 +265,8 @@ private long lastFireballTime = 0;
 				runSpeed = 0;
 				anim = 3;
 			}
+
+			direction = -1;
 
 		}
 
