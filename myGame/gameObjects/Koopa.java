@@ -225,7 +225,10 @@ public class Koopa extends MovingEntity
 		}
 	    }
 	}
-
+	if(other.getTag().equals("fireball")){
+		direction = other.getDirection();
+		dieAnimation = true;
+	}
     }
 
     private void dieAnimation ()

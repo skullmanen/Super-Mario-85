@@ -133,6 +133,10 @@ public class Goomba extends MovingEntity {
 				}
 			}
 		}
+		if(other.getTag().equals("fireball")){
+			direction = other.getDirection();
+			dieAnimation2 = true;
+		}
 
 	}
 
@@ -161,7 +165,7 @@ public class Goomba extends MovingEntity {
 		dieAnimationPlaying = true;
 		if (newStatsApplied == false) {
 			speedX = 75;
-			fallDistance = -2f;
+			fallDistance = -5f;
 
 			newStatsApplied = true;
 		}

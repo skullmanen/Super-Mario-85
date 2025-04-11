@@ -89,7 +89,9 @@ public class PiranhaPlant extends GameObject{
 
     @Override
     public void collision(GameObject other) {
-        
+        if(other.getTag().equals("fireball")){
+            dead = true;
+        }
     }
 
 }

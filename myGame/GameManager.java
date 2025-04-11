@@ -49,7 +49,7 @@ public class GameManager extends AbstractGame {
     private SoundClip mouseKlick;
     private LeaderBoard leaderBoard;
     private Player player;
-    private int startMarioState = 0;
+    private int startMarioState = 2;
     public float gameTime;
     public static int frameCounter = 0;
 
@@ -205,11 +205,10 @@ public class GameManager extends AbstractGame {
 
     @Override
     public void render(GameContainer gc, Renderer r) {
-
         map.renderBackground(gc, r);
-
         for (GameObject obj : objects) {
             obj.render(gc, r);
+            obj.renderComponents(gc, r);
         }
 
         map.renderBlocks(gc, r);
@@ -375,7 +374,7 @@ public class GameManager extends AbstractGame {
         for(MovingPlatform mp : movingPlatforms){
             objects.add(mp);
         }
-        camera.setMoveCamera(true);
+        camera.setMoveCamera(false);
 
         
     }

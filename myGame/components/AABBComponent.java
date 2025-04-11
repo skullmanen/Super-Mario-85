@@ -35,7 +35,8 @@ public class AABBComponent extends Component
     @Override
     public void render (GameContainer gc, Renderer r)
     {
-	    r.drawRect((int) (centerX - halfWidth), (int) (centerY - halfHeight), (int) (halfWidth * 2), (int) (halfHeight * 2), 0);
+        //System.out.println("rendering AABBComponent: " + parent.getTag());
+	    r.drawRect((int) (centerX - halfWidth), (int) (centerY - halfHeight), (int) (halfWidth * 2), (int) (halfHeight * 2), 0xffff00ff);
 
     }
 
