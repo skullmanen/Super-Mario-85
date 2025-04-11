@@ -344,7 +344,6 @@ private long lastFireballTime = 0;
 					&& offY > 0) && !dieAnimationPlaying) {
 				fallDistance = 0;
 				offY = 0;
-				System.out.println("fall down");
 				ground = true;
 			}
 		}
@@ -394,16 +393,12 @@ private long lastFireballTime = 0;
 		canTeleport = false;
 
 		if (standingOnPlatform) {
-			System.out.println("standing on platform");
 			posY = gm.getMovingPlatform(freeObjectSpace).getPosY() - height;
 			tileY = (int) posY / GameManager.TS;
 			fallDistance = 0;
 			ground = true;
 
 		}
-
-		System.out.println(dieAnimationPlaying);
-
 	}
 
 	private void animation(GameContainer gc, float dt) {
@@ -601,7 +596,6 @@ private long lastFireballTime = 0;
 				// offY = 0;
 				// posY = other.posY - height;
 				// offY = paddingTop;
-				System.out.println("in collidion with movingplatform");
 				ground = true;
 
 				standingOnPlatform = true;
