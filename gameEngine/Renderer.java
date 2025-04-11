@@ -10,7 +10,7 @@ public class Renderer {
 	private final Font font = Font.STANDARD;
 
 	private final int pW, pH; // pixelWidth, pixelHeight
-	private int[] p; // pixels
+	public int[] p; // pixels
 
 	private int camX, camY;
 
@@ -27,6 +27,7 @@ public class Renderer {
 	}
 
 	public void setPixel(int x, int y, int value) {
+		
 		int alpha = ((value >> 24) & 0xff);
 
 		if ((x < 0 || x >= pW || y < 0 || y >= pH) || alpha == 0) {

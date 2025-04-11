@@ -266,7 +266,7 @@ private long lastFireballTime = 0;
 				anim = 3;
 			}
 
-			direction = -1;
+			
 
 		}
 

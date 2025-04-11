@@ -54,7 +54,7 @@ public class GameManager extends AbstractGame {
     public static int frameCounter = 0;
 
     private int amountOfLevels = 2;
-    private int currentLevel = 2;
+    private int currentLevel = 1;
     
     
 
@@ -205,7 +205,7 @@ public class GameManager extends AbstractGame {
 
     @Override
     public void render(GameContainer gc, Renderer r) {
-
+        System.out.println(r.p.length);
         map.renderBackground(gc, r);
 
         for (GameObject obj : objects) {
