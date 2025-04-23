@@ -8,8 +8,6 @@ import myGame.components.AABBComponent;
 
 public class FireBall extends GameObject{
     private final ImageTile fireballSpritesheet = new ImageTile("/resources/images/FireFlower/FireBallSpritesheet.png", 16, 16);
-    private final ImageTile smallMarioSpriteSheet = new ImageTile("/resources/images/mario/MarioSpriteSheet_small.png",
-			16, 16);
     private boolean isExplosion = false;
     private float animation = 0;
     private int animationFrames = 4;
@@ -62,9 +60,6 @@ public class FireBall extends GameObject{
         if(isExplosion){
             speedX = 0;
             speedY = 0;
-           
-            //System.out.println("animatiin: " +animation);
-            //System.out.println("animationFrames: " +animationFrames);
             if(animation >= animationFrames){
                 dead = true;
             }
@@ -79,23 +74,13 @@ public class FireBall extends GameObject{
 
     @Override
     public void render(GameContainer gc, Renderer r) {
-       // r.drawFillRect((int)posX, (int)posY, 100, 100, 0xff0000ff);
        if(isExplosion && animation >= animationFrames)return;
-           
        r.drawImageTile(fireballSpritesheet, (int) posX, (int) posY, (int)animation,isExplosion?1:0);
-      //r.drawImageTile(smallMarioSpriteSheet, (int) posX, (int) posY, animation,0);
-
       this.renderComponents(gc, r);
-
-
     }
 
     @Override
     public void collision(GameObject other) {
-        System.out.println("collision: " + other.getTag());
-        AABBComponent myC = (AABBComponent) this.findComponent("aabb");
-		AABBComponent otherC = (AABBComponent) other.findComponent("aabb");
-
         if(!other.isDieAnimationPlaying()){
             if(other.getTag().equals("goomba") || other.getTag().equals("koopa")){
                 isExplosion = true;
