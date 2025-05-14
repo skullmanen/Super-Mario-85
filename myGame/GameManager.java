@@ -53,8 +53,8 @@ public class GameManager extends AbstractGame {
     public float gameTime;
     public static int frameCounter = 0;
 
-    private int amountOfLevels = 2;
-    private int currentLevel = 1;    
+    private int amountOfLevels = 3;
+    private int currentLevel = 2;    
 
     private ArrayList<TeleportPipe> teleportPipes = new ArrayList<>();
     private ArrayList<MovingPlatform> movingPlatforms = new ArrayList<>();
@@ -68,7 +68,7 @@ public class GameManager extends AbstractGame {
 
         initializeLevel.put(2, this::initialize_lvl2);*/
 
-        for (int i = 1; i <= 2; i++) {
+        for (int i = 1; i <= amountOfLevels; i++) {
             int level = i;
             initializeLevel.put(level, () -> initializeLevelMethod(level));
         }
@@ -362,10 +362,10 @@ public class GameManager extends AbstractGame {
             objects.add(tp);
         }
 
-        movingPlatforms.add(new MovingPlatform(2512, 4, "DOWN"));
-        movingPlatforms.add(new MovingPlatform(2512, 100, "DOWN"));
-        movingPlatforms.add(new MovingPlatform(2752, 200, "UP"));
-        movingPlatforms.add(new MovingPlatform(2752, 104, "UP"));
+        movingPlatforms.add(new MovingPlatform(2512, 4, "DOWN", -100, 2000));
+        movingPlatforms.add(new MovingPlatform(2512, 100, "DOWN", -100, 2000));
+        movingPlatforms.add(new MovingPlatform(2752, 200, "UP", -100, 2000));
+        movingPlatforms.add(new MovingPlatform(2752, 104, "UP", -100, 2000));
        // movingPlatforms.add(new MovingPlatform(50, 100, "DOWN"));
         
         for(MovingPlatform mp : movingPlatforms){
@@ -374,6 +374,15 @@ public class GameManager extends AbstractGame {
         camera.setMoveCamera(false);
 
         
+    }
+
+    private void initialize_lvl3() {
+        objects.add(new Flag(232, 3));
+        player = new Player(3, 12, startMarioState);
+        objects.add(player);//3
+
+        map = new Map("lvl3/colorworld1-3.png", "lvl3/background1-3.png");
+
     }
 
     private void initializeLevelMethod(int level) {

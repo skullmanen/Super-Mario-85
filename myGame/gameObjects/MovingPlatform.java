@@ -9,12 +9,17 @@ import myGame.components.AABBComponent;
 public class MovingPlatform extends GameObject{
     private final ImageTile platForm;
     private int direction;
+    private String dirAsString;
     private boolean playerColliding = false;
     boolean a = false;
-    public MovingPlatform(float posX, float posY, String dir){       
-        assert dir.equals("UP") || dir.equals("DOWN");
-        direction = dir.equals("UP") ? -1 : 1;
+    private float lowerBound;
+    private float upperBound;
+    public MovingPlatform(float posX, float posY, String dir, float upperBound, float lowerBound) {       
+        assert dir.equals("UP") || dir.equals("DOWN") || dir.equals("LEFT") || dir.equals("RIGHT");
 
+        
+        direction = dir.equals("UP") || dir.equals("LEFT") ? -1 : 1;
+        dirAsString = dir;
         tag = "movingPlatform";
         this.posX = posX;
         this.posY = posY;
@@ -25,7 +30,10 @@ public class MovingPlatform extends GameObject{
         height = 8;
         centerX = (int)posX + (int) (width / 2);
 		centerY = (int) posY + (int) (height / 2);
+        speedX = 1;
         speedY = 1;
+        this.lowerBound = lowerBound;
+        this.upperBound = upperBound;
         platForm = new ImageTile("/resources/images/movingPlatform.png", (int)width, height);   
 
         this.addComponent(new AABBComponent(this));
@@ -34,9 +42,37 @@ public class MovingPlatform extends GameObject{
 
     @Override
     public void update(GameContainer gc, GameManager gm, float dt) {
-        if(direction == -1 && posY<0)posY = gc.getHeight();
-        else if(direction == 1 && posY>gc.getHeight())posY = -height;
-        posY += speedY*direction;
+        if(dirAsString.equals("UP")){
+            if(posY< 0) posY = gc.getHeight();
+            else if(posY<=upperBound){
+                dirAsString = "DOWN";
+                direction = 1;
+            }
+            posY += speedY*direction;
+        } else if(dirAsString.equals("DOWN")){
+            if(posY>gc.getHeight()) posY = 0;
+            else if(posY>=lowerBound){
+                dirAsString = "UP";
+                direction = -1;
+            }
+            posY += speedY*direction;
+        }else if(dirAsString.equals("LEFT")){
+            if(posX<0) posX = gc.getWidth();
+            else if(posX<=lowerBound){
+                dirAsString = "RIGHT";
+                direction = 1;
+            }
+            posX += speedX*direction;
+        } else if(dirAsString.equals("RIGHT")){
+            if(posX>gc.getWidth()) posX = 0;
+            else if(posX>=upperBound){
+                dirAsString = "LEFT";
+                direction = -1;
+            }
+            posX += speedX*direction;
+        }
+     
+       
         this.updateComponents(gc, gm, dt);
 
     }
