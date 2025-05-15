@@ -54,7 +54,7 @@ public class GameManager extends AbstractGame {
     public static int frameCounter = 0;
 
     private int amountOfLevels = 3;
-    private int currentLevel = 2;    
+    private int currentLevel = 3;    
 
     private ArrayList<TeleportPipe> teleportPipes = new ArrayList<>();
     private ArrayList<MovingPlatform> movingPlatforms = new ArrayList<>();
@@ -378,11 +378,18 @@ public class GameManager extends AbstractGame {
 
     private void initialize_lvl3() {
         objects.add(new Flag(232, 3));
-        player = new Player(3, 12, startMarioState);
+        player = new Player(60, 2, startMarioState);
         objects.add(player);//3
 
         map = new Map("lvl3/colorworld1-3.png", "lvl3/background1-3.png");
-
+       
+        movingPlatforms.add(new MovingPlatform(880, 8*TS, "DOWN", 6*TS, 13*TS));
+        movingPlatforms.add(new MovingPlatform(83*TS, 8*TS, "RIGHT", 87*TS, 82*TS));
+        movingPlatforms.add(new MovingPlatform(89*TS, 9*TS, "LEFT", 93*TS, 87*TS));
+        
+        for(MovingPlatform mp : movingPlatforms){
+            objects.add(mp);
+        }
     }
 
     private void initializeLevelMethod(int level) {

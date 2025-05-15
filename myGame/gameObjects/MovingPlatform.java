@@ -57,15 +57,14 @@ public class MovingPlatform extends GameObject{
             }
             posY += speedY*direction;
         }else if(dirAsString.equals("LEFT")){
-            if(posX<0) posX = gc.getWidth();
-            else if(posX<=lowerBound){
+
+             if(posX<=lowerBound){
                 dirAsString = "RIGHT";
                 direction = 1;
             }
             posX += speedX*direction;
-        } else if(dirAsString.equals("RIGHT")){
-            if(posX>gc.getWidth()) posX = 0;
-            else if(posX>=upperBound){
+        } else if(dirAsString.equals("RIGHT")){         
+             if(posX>=upperBound){
                 dirAsString = "LEFT";
                 direction = -1;
             }
