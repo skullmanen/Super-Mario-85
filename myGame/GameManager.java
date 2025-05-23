@@ -377,8 +377,25 @@ public class GameManager extends AbstractGame {
     }
 
     private void initialize_lvl3() {
-        objects.add(new Flag(232, 3));
-        player = new Player(60, 2, startMarioState);
+        int goombaSpawnPosX[] = new int[] {
+            45, 47, 81
+         };
+        int goombaSpawnPosY[] = new int[] {
+              4, 4, 5
+        };
+
+        int redKoopaSpawnPosX[] = new int[] {
+            31
+        };
+        int koopaSpawnPosY[] = new int[] {
+                12, 12, 12
+        };
+        for (int i = 0; i < goombaSpawnPosX.length; i++) {
+            objects.add(new Goomba(goombaSpawnPosX[i], goombaSpawnPosY[i]));
+        }
+
+        objects.add(new Flag(152, 3));
+        player = new Player(3, 12, startMarioState);
         objects.add(player);//3
 
         map = new Map("lvl3/colorworld1-3.png", "lvl3/background1-3.png");
