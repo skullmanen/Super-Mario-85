@@ -14,6 +14,9 @@ public class MovingPlatform extends GameObject{
     boolean a = false;
     private float lowerBound;
     private float upperBound;
+    private boolean isTurning = false;
+    private boolean turnFinished = false;
+    private float turnSpeed = 0.05f;
     public MovingPlatform(float posX, float posY, String dir, float upperBound, float lowerBound) {       
         assert dir.equals("UP") || dir.equals("DOWN") || dir.equals("LEFT") || dir.equals("RIGHT");
 
@@ -30,8 +33,8 @@ public class MovingPlatform extends GameObject{
         height = 8;
         centerX = (int)posX + (int) (width / 2);
 		centerY = (int) posY + (int) (height / 2);
-        speedX = 1;
-        speedY = 1;
+        speedX = direction;
+        speedY = direction;
         this.lowerBound = lowerBound;
         this.upperBound = upperBound;
         platForm = new ImageTile("/resources/images/movingPlatform.png", (int)width, height);   
@@ -43,32 +46,65 @@ public class MovingPlatform extends GameObject{
     @Override
     public void update(GameContainer gc, GameManager gm, float dt) {
         if(dirAsString.equals("UP")){
+
             if(posY< 0) posY = gc.getHeight();
-            else if(posY<=upperBound){
-                dirAsString = "DOWN";
-                direction = 1;
+            else if(posY<=upperBound || isTurning){
+                isTurning = true;
+                speedY = changeDirection(speedY, 1, turnSpeed);
+
+                if(turnFinished){
+                    System.out.println("in turn finnishesdwlöekajdflasjkdlqakedla");
+                    dirAsString = "DOWN";
+                    direction = 1;
+                    isTurning = false;
+                    turnFinished = false;
+                }
+
             }
-            posY += speedY*direction;
+            System.out.println("UP " + speedY);
+            posY += speedY;
         } else if(dirAsString.equals("DOWN")){
             if(posY>gc.getHeight()) posY = 0;
-            else if(posY>=lowerBound){
-                dirAsString = "UP";
-                direction = -1;
+            else if(posY>=lowerBound || isTurning){
+                isTurning = true;
+                speedY = changeDirection(speedY, -1, -turnSpeed);
+
+                if(turnFinished){
+                    dirAsString = "UP";
+                    direction = -1;
+                    isTurning = false;
+                    turnFinished = false;
+                }
+
             }
-            posY += speedY*direction;
+            System.out.println("DOWN " + speedY);
+            posY += speedY;
         }else if(dirAsString.equals("LEFT")){
 
-             if(posX<=lowerBound){
-                dirAsString = "RIGHT";
-                direction = 1;
+             if(posX<=lowerBound || isTurning){
+                 isTurning = true;
+                 speedX = changeDirection(speedX, 1, turnSpeed);
+                 if(turnFinished){
+                     dirAsString = "RIGHT";
+                     direction = 1;
+                     isTurning = false;
+                     turnFinished = false;
+                 }
+
             }
-            posX += speedX*direction;
+            posX += speedX;
         } else if(dirAsString.equals("RIGHT")){         
-             if(posX>=upperBound){
-                dirAsString = "LEFT";
-                direction = -1;
+             if(posX>=upperBound || isTurning){
+                 isTurning = true;
+                 speedX = changeDirection(speedX, -1, -turnSpeed);
+                 if(turnFinished){
+                     dirAsString = "LEFT";
+                     direction = -1;
+                     isTurning = false;
+                     turnFinished = false;
+                 }
             }
-            posX += speedX*direction;
+            posX += speedX;
         }
      
        
@@ -93,7 +129,13 @@ public class MovingPlatform extends GameObject{
         //else playerColliding = false;
     }
 
+    private float changeDirection(float currentSpeed, float targetSpeed, float speedChange){
+        currentSpeed += speedChange;
+        if(Math.abs(currentSpeed - targetSpeed)< Math.abs(speedChange)) turnFinished = true;
+        return currentSpeed;
 
+
+    }
     public boolean isPlayerColliding() {
         return playerColliding;
     }
