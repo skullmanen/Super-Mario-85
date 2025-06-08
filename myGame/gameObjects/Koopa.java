@@ -31,7 +31,7 @@ public class Koopa extends MovingEntity
 	this.tileY = tileY;
 	posX = tileX * GameManager.TS;
 	posY = tileY * GameManager.TS;
-	speedX = 80;
+	speedX = 40;
 	direction = -1;
 
 	width = GameManager.TS;

@@ -54,7 +54,7 @@ public class GameManager extends AbstractGame {
     public static int frameCounter = 0;
 
     private int amountOfLevels = 3;
-    private int currentLevel = 3;
+    private int currentLevel = 1;
 
     private ArrayList<TeleportPipe> teleportPipes = new ArrayList<>();
     private ArrayList<MovingPlatform> movingPlatforms = new ArrayList<>();

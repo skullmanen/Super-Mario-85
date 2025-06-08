@@ -22,7 +22,7 @@ public class Goomba extends MovingEntity {
 		this.tileY = tileY;
 		posX = tileX * GameManager.TS;
 		posY = tileY * GameManager.TS;
-		speedX = 80;
+		speedX = 50;
 		direction = -1;
 
 		width = GameManager.TS;
@@ -81,7 +81,7 @@ public class Goomba extends MovingEntity {
 
 	@Override
 	public void collision(GameObject other) {
-		if (!other.isDieAnimationPlaying()) {
+		if (!other.isDieAnimationPlaying() || dieAnimationPlaying) {
 			if (other.getTag().equals("player") && !other.isInvincible) {
 
 				AABBComponent myC = (AABBComponent) this.findComponent("aabb");
@@ -141,6 +141,7 @@ public class Goomba extends MovingEntity {
 	}
 
 	private void dieAnimation1() {//crushed
+		if(dieAnimation2)return;
 		dieAnimationPlaying = true;
 		killTimer++;
 		// dead = true;
